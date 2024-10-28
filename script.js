@@ -18,9 +18,13 @@ function onYouTubeIframeAPIReady() {
 
 // 開始計時
 function startTimer() {
-    player.unMute(); // 取消靜音 YouTube 播放器
+    // 切換回原本的播放清單
+    player.loadPlaylist({ list: 'PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP' });
 
+    // 移除閃爍效果
     document.getElementById("timer-display-section").classList.remove("flash");
+
+    player.unMute(); // 取消靜音 YouTube 播放器
 
     const goalText = document.getElementById("goalText").value;
     if (goalText) {
@@ -72,8 +76,6 @@ function updateTimerDisplay() {
 // 倒數結束後的處理
 function endTimer() {
     player.mute(); // 靜音 YouTube 播放器
-    // alert("時間到！請查看並決定是否進入休息模式。"); // 彈出提示視窗
-
     const timerDisplaySection = document.getElementById("timer-display-section");
     timerDisplaySection.classList.add("flash"); // 添加閃爍效果
     document.getElementById("breakButton").style.display = "inline"; // 顯示休息按鈕
@@ -90,6 +92,9 @@ function pauseTimer() {
 
 // 進入休息狀態
 function startBreak() {
+    // 切換 YouTube 影片到指定的休息時間影片
+    player.loadVideoById("NobJD8The0Q");
+
     document.getElementById("timer-display-section").classList.remove("flash"); // 移除閃爍效果
     document.body.className = "background-break"; // 設置背景為米藍色
     document.getElementById("breakButton").style.display = "none"; // 隱藏休息按鈕
@@ -117,7 +122,6 @@ function breakTick() {
 
 // 結束休息
 function endBreak() {
-    alert("休息時間到！請查看並決定是否繼續下一輪計時。"); // 彈出提示視窗
     document.body.className = "background-normal"; // 回到正常背景
     document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
     updateHistory(); // 更新歷史清單
