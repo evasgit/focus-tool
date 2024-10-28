@@ -160,3 +160,14 @@ button.pause:hover {
 .background-break {
     background-color: #b0c4de;
 }
+
+/* timer-display-section 閃爍效果 */
+.flash {
+    animation: flashAnimation 1s infinite;
+}
+
+@keyframes flashAnimation {
+    0% { background-color: #f5deb3; }
+    50% { background-color: #ffffff; }
+    100% { background-color: #f5deb3; }
+}
