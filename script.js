@@ -1,10 +1,10 @@
 let countdown;
-let remainingTime = 5; // 倒數開始時間
-let breakTime = 3; // 休息時間
-let goalHistory = {}; // 用於記錄目標的歷史
-let lastGoal = "";
-let elapsedSinceLastBreak = 0; // 距離上次休息的時間
-let elapsedInterval;
+let remainingTime = 5; // 計時倒數的初始時間
+let breakTime = 3; // 休息倒數的初始時間
+let goalHistory = {}; // 記錄目標的使用次數與累計時間
+let lastGoal = ""; // 記錄上一次的目標
+let elapsedSinceLastBreak = 0; // 計算距離上次休息的時間
+let elapsedInterval; // 用於管理「距離上次休息」的計時器
 
 // 初始化 YouTube 播放器
 let player;
@@ -27,21 +27,21 @@ function startTimer() {
         goalHistory[goalText].count += 1;
     }
 
-    document.body.className = "background-normal";
-    clearInterval(countdown); // 確保之前的倒數計時已清除
-    clearInterval(elapsedInterval); // 清除距離上次休息的計時
-    remainingTime = 5; // 重置剩餘時間
-    elapsedSinceLastBreak = 0; // 重置距離上次休息時間
-    updateElapsedDisplay(); // 顯示重置的距離上次休息時間
+    document.body.className = "background-normal"; // 設置背景為米色
+    clearInterval(countdown); // 清除之前的倒數計時器
+    clearInterval(elapsedInterval); // 清除距離上次休息的計時器
+    remainingTime = 5; // 重設倒數時間
+    elapsedSinceLastBreak = 0; // 重設距離上次休息的時間
+    updateElapsedDisplay(); // 更新距離上次休息顯示
     updateTimerDisplay(); // 更新倒數顯示
 
-    // 開始「距離上次休息」的計時
+    // 啟動距離上次休息的計時器
     elapsedInterval = setInterval(() => {
         elapsedSinceLastBreak++;
         updateElapsedDisplay();
     }, 1000);
 
-    // 開始倒數計時
+    // 啟動倒數計時
     countdown = setInterval(timerTick, 1000);
 }
 
@@ -56,7 +56,7 @@ function timerTick() {
     }
 }
 
-// 顯示「距離上次休息」的時間
+// 更新「距離上次休息」的顯示
 function updateElapsedDisplay() {
     document.getElementById("noBreakTime").textContent = `距離上次休息：${elapsedSinceLastBreak} 秒`;
 }
@@ -69,29 +69,29 @@ function updateTimerDisplay() {
 // 倒數結束後的處理
 function endTimer() {
     player.mute(); // 靜音 YouTube 播放器
-    document.body.className = "background-alert";
+    document.body.className = "background-alert"; // 切換為警示背景（閃爍效果）
     document.getElementById("breakButton").style.display = "inline"; // 顯示休息按鈕
     updateHistory(); // 更新歷史清單
 }
 
 // 暫停計時
 function pauseTimer() {
-    clearInterval(countdown); // 停止倒數
-    clearInterval(elapsedInterval); // 停止「距離上次休息」的計時
+    clearInterval(countdown); // 停止倒數計時
+    clearInterval(elapsedInterval); // 停止距離上次休息的計時器
 }
 
 // 進入休息狀態
 function startBreak() {
-    document.body.className = "background-break";
+    document.body.className = "background-break"; // 設置背景為米藍色
     document.getElementById("breakButton").style.display = "none"; // 隱藏休息按鈕
     document.getElementById("todoList").style.display = "block"; // 顯示待辦事項
 
-    clearInterval(elapsedInterval); // 停止「距離上次休息」的計時
-    elapsedSinceLastBreak = 0; // 重置「距離上次休息」時間
-    updateElapsedDisplay(); // 更新顯示
+    clearInterval(elapsedInterval); // 停止距離上次休息的計時器
+    elapsedSinceLastBreak = 0; // 重設距離上次休息的時間
+    updateElapsedDisplay(); // 更新距離上次休息顯示
 
-    remainingTime = breakTime; // 重置休息時間
-    updateTimerDisplay(); // 更新顯示
+    remainingTime = breakTime; // 設置休息時間
+    updateTimerDisplay(); // 更新倒數顯示
     countdown = setInterval(breakTick, 1000); // 開始休息倒數計時
 }
 
@@ -108,7 +108,7 @@ function breakTick() {
 
 // 結束休息
 function endBreak() {
-    document.body.className = "background-alert";
+    document.body.className = "background-alert"; // 切換為警示背景
     document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
     updateHistory(); // 更新歷史清單
     startTimer(); // 返回計時模式
@@ -125,6 +125,9 @@ function updateHistory() {
     for (const goal in goalHistory) {
         const li = document.createElement("li");
         li.textContent = `${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime}秒`;
+        li.onclick = () => {
+            document.getElementById("goalText").value = goal; // 點選歷史項目填入輸入框
+        };
         historyList.prepend(li);
     }
 }
