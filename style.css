@@ -1,7 +1,7 @@
 /* 全局樣式 */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f4f8; /* 柔和的背景色 */
+    background-color: #f0f4f8;
     color: #333;
     margin: 0;
     display: flex;
@@ -19,7 +19,7 @@ h1 {
     color: #4a4a4a;
 }
 
-/* 目標輸入區域樣式 */
+/* 目標輸入區域 */
 #goal-section {
     background-color: #ffffff;
     padding: 20px;
@@ -41,11 +41,7 @@ h1 {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* 按鈕組樣式 */
-#button-group {
-    margin-top: 10px;
-}
-
+/* 按鈕樣式 */
 button {
     padding: 10px 15px;
     font-size: 1em;
@@ -81,7 +77,7 @@ button.pause:hover {
     background-color: #218838;
 }
 
-/* 計時顯示樣式 */
+/* 倒數顯示樣式 */
 #timer-display-section {
     background-color: #ffffff;
     padding: 20px;
@@ -123,7 +119,7 @@ button.pause:hover {
     background-color: #f1f1f1;
 }
 
-/* 休息待辦事項清單樣式 */
+/* 待辦事項清單樣式 */
 #todoList {
     background-color: #ffffff;
     padding: 20px;
@@ -146,13 +142,13 @@ button.pause:hover {
     margin: 5px 0;
 }
 
-/* 背景顏色動畫樣式 */
+/* 背景顏色動畫 */
 .background-normal {
     background-color: #FF007F;
 }
 
 .background-alert {
-    animation: alertColor 2.5s infinite;
+    animation: alertColor 2s infinite;
 }
 
 @keyframes alertColor {
