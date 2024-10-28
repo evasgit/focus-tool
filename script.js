@@ -86,7 +86,6 @@ function endTimer() {
     player.mute(); // 靜音 YouTube 播放器
     const timerDisplaySection = document.getElementById("timer-display-section");
     timerDisplaySection.classList.add("flash"); // 添加閃爍效果
-    document.getElementById("breakButton").style.display = "inline"; // 顯示休息按鈕
     updateHistory(); // 更新歷史清單
 }
 
@@ -107,7 +106,6 @@ function startBreak() {
 
     document.getElementById("timer-display-section").classList.remove("flash"); // 移除閃爍效果
     document.body.className = "background-break"; // 設置背景為米藍色
-    document.getElementById("breakButton").style.display = "none"; // 隱藏休息按鈕
     document.getElementById("todoList").style.display = "block"; // 顯示待辦事項
 
     clearInterval(elapsedInterval); // 停止距離上次休息的計時器
