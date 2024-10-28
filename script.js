@@ -70,12 +70,14 @@ function updateTimerDisplay() {
 // 倒數結束後的處理
 function endTimer() {
     player.mute(); // 靜音 YouTube 播放器
-    alert("時間到！請查看並決定是否進入休息模式。"); // 彈出提示視窗
 
     const timerDisplaySection = document.getElementById("timer-display-section");
     timerDisplaySection.classList.add("flash"); // 添加閃爍效果
     document.getElementById("breakButton").style.display = "inline"; // 顯示休息按鈕
     updateHistory(); // 更新歷史清單
+
+    alert("時間到！請查看並決定是否進入休息模式。"); // 彈出提示視窗
+
 }
 
 // 暫停計時
