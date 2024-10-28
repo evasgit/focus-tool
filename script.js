@@ -122,6 +122,9 @@ function breakTick() {
 
 // 結束休息
 function endBreak() {
+    // 添加閃爍效果來提示休息結束
+    document.getElementById("timer-display-section").classList.add("flash");
+
     document.body.className = "background-normal"; // 回到正常背景
     document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
     updateHistory(); // 更新歷史清單
