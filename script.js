@@ -31,9 +31,9 @@ function startTimer() {
 
     document.body.className = "background-normal"; // 設置背景為米色
     clearInterval(countdown); // 清除之前的倒數計時器
-    clearInterval(elapsedInterval); // 清除距離上次休息的計時器
+    // clearInterval(elapsedInterval); // 清除距離上次休息的計時器
     remainingTime = 5; // 重設倒數時間
-    elapsedSinceLastBreak = 0; // 重設距離上次休息的時間
+    // elapsedSinceLastBreak = 0; // 重設距離上次休息的時間
     updateElapsedDisplay(); // 更新距離上次休息顯示
     updateTimerDisplay(); // 更新倒數顯示
 
