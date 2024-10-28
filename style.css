@@ -61,6 +61,15 @@ button:focus {
     outline: none;
 }
 
+/* 暫停按鈕的灰色樣式 */
+button.pause {
+    background-color: #6c757d; /* 柔和的灰色 */
+}
+
+button.pause:hover {
+    background-color: #5a6268; /* 更深的灰色，用於懸停狀態 */
+}
+
 /* 特定狀態的按鈕顏色 */
 #breakButton {
     background-color: #28a745;
@@ -96,7 +105,6 @@ button:focus {
     text-align: left;
 }
 
-/* 歷史清單項目 hover 效果 */
 #history li:hover {
     color: #007bff;
     text-decoration: underline;
@@ -143,14 +151,4 @@ button:focus {
 /* 休息狀態的背景顏色 */
 .background-break {
     background-color: #b0c4de; /* 米藍色 */
-}
-
-/* 調整顏色和陰影的提示框 */
-.alert {
-    background-color: #ff4757;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
 }
