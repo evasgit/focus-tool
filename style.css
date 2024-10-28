@@ -1,76 +1,78 @@
-/* 設定整體的樣式與顏色 */
+/* 全局樣式 */
 body {
     font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8; /* 柔和的背景色 */
+    color: #333;
+    margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    margin: 0;
-    background-color: #f7f9fc; /* 淡藍灰色作為背景色 */
-    color: #333;
 }
 
-/* 頁面標題 */
+header {
+    margin-bottom: 20px;
+}
+
 h1 {
-    font-size: 2em;
-    color: #333;
-    margin-bottom: 10px;
+    font-size: 2.5em;
+    color: #4a4a4a;
 }
 
-/* 目標輸入區、倒數顯示等主要區塊 */
-#goalInput, #timerDisplay, #noBreakTime, #history, #todoList {
-    margin: 15px 0;
-    padding: 15px;
-    border-radius: 8px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* 目標輸入區域樣式 */
+#goal-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
     width: 100%;
     max-width: 600px;
-    text-align: center;
 }
 
-/* 輸入框樣式 */
-input[type="text"] {
+#goalText {
+    width: 80%;
     padding: 10px;
+    margin-bottom: 10px;
     font-size: 1em;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    width: 70%;
-    margin-right: 10px;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* 按鈕樣式 */
+/* 按鈕組樣式 */
+#button-group {
+    margin-top: 10px;
+}
+
 button {
-    padding: 10px 20px;
+    padding: 10px 15px;
     font-size: 1em;
     border: none;
     border-radius: 5px;
+    margin: 5px;
     cursor: pointer;
     color: white;
-    background-color: #007bff;
     transition: background-color 0.3s;
-    margin: 5px;
 }
 
-button:hover {
+button.primary {
+    background-color: #007bff;
+}
+
+button.primary:hover {
     background-color: #0056b3;
 }
 
-button:focus {
-    outline: none;
-}
-
-/* 暫停按鈕的灰色樣式 */
 button.pause {
-    background-color: #6c757d; /* 柔和的灰色 */
+    background-color: #6c757d;
 }
 
 button.pause:hover {
-    background-color: #5a6268; /* 更深的灰色，用於懸停狀態 */
+    background-color: #5a6268;
 }
 
-/* 特定狀態的按鈕顏色 */
 #breakButton {
     background-color: #28a745;
 }
@@ -79,40 +81,57 @@ button.pause:hover {
     background-color: #218838;
 }
 
-/* 倒數計時樣式 */
-#timerDisplay {
-    font-size: 2em;
-    color: #ff4757; /* 紅色強調 */
+/* 計時顯示樣式 */
+#timer-display-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
 }
 
-/* 上次休息時間樣式 */
+#timerDisplay {
+    font-size: 2em;
+    color: #e74c3c;
+    margin-bottom: 10px;
+}
+
 #noBreakTime {
     font-size: 1em;
     color: #555;
 }
 
-/* 歷史清單樣式 */
+/* 歷史區域樣式 */
 #history ul {
     list-style-type: none;
     padding: 0;
 }
 
 #history li {
-    cursor: pointer;
     margin: 5px 0;
-    color: #333;
-    font-size: 1em;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: left;
 }
 
 #history li:hover {
-    color: #007bff;
-    text-decoration: underline;
+    background-color: #f1f1f1;
 }
 
-/* 休息待辦事項清單 */
+/* 休息待辦事項清單樣式 */
 #todoList {
-    display: none;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
 }
 
 #todoList h3 {
@@ -121,34 +140,26 @@ button.pause:hover {
     margin-bottom: 10px;
 }
 
-#todoList ul {
-    list-style: none;
-    padding: 0;
-}
-
 #todoList li {
     font-size: 1em;
     color: #555;
     margin: 5px 0;
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
 }
 
-/* 提醒的背景顏色動畫 */
+/* 背景顏色動畫樣式 */
 .background-normal {
-    background-color: #FF007F; /* 玫瑰色 */
+    background-color: #FF007F;
 }
 
 .background-alert {
-    animation: alertColor 2s infinite;
+    animation: alertColor 2.5s infinite;
 }
 
 @keyframes alertColor {
-    0% { background-color: #FF007F; } /* 玫瑰色 */
-    50% { background-color: white; }
+    0% { background-color: #FF007F; }
+    50% { background-color: #ffffff; }
 }
 
-/* 休息狀態的背景顏色 */
 .background-break {
-    background-color: #b0c4de; /* 米藍色 */
+    background-color: #b0c4de;
 }
