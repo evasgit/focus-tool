@@ -40,6 +40,9 @@ function startTimer() {
         updateHistory();
     }
 
+    // 隱藏待辦事項
+    document.getElementById("todoList").style.display = "none";
+
     // 重設倒數
     document.getElementById("timer-display-section").classList.remove("flash");
 
