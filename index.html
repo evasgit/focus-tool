@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>目標提醒</title>
+    <title>目標提醒工具</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>目標設定與提醒</h1>
+    
+    <!-- 目標輸入框 -->
     <div id="goalInput">
         <input type="text" id="goalText" placeholder="輸入您的目標">
-        <button onclick="startTimer()">開始</button>
-    </div>
-    <div id="timerDisplay">剩餘時間：5 秒</div>
-    <div id="noBreakTime">距離上次休息：0 秒</div>
-    <div id="history">
-        <h2>歷史目標</h2>
-        <ul id="goalHistory"></ul>
+        <button id="startButton">開始</button>
     </div>
     
+    <!-- 倒數計時顯示 -->
+    <div id="timerDisplay">剩餘時間：5 秒</div>
+    
+    <!-- 休息按鈕 -->
+    <button id="restButton">休息</button>
+    
     <!-- YouTube 播放清單嵌入 -->
-    <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP&autoplay=1&loop=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none;"></iframe>
+    <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     
     <script src="script.js"></script>
 </body>
