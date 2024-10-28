@@ -20,6 +20,8 @@ function onYouTubeIframeAPIReady() {
 function startTimer() {
     player.unMute(); // 取消靜音 YouTube 播放器
 
+    document.getElementById("timer-display-section").classList.remove("flash");
+
     const goalText = document.getElementById("goalText").value;
     if (goalText) {
         lastGoal = goalText;
