@@ -6,7 +6,7 @@ body {
     padding: 20px;
 }
 
-#goalInput, #timerDisplay, #noBreakTime, #history {
+#goalInput, #timerDisplay, #noBreakTime, #history, #todoList {
     margin: 10px 0;
 }
 
@@ -29,4 +29,22 @@ body {
     cursor: pointer;
     margin: 5px 0;
     color: #333;
+}
+
+/* 定義背景顏色 */
+.background-normal {
+    background-color: #f5f5dc; /* 米色 */
+}
+
+.background-alert {
+    animation: alertColor 1s infinite;
+}
+
+@keyframes alertColor {
+    0% { background-color: #f5f5dc; } /* 米色 */
+    50% { background-color: white; }
+}
+
+.background-break {
+    background-color: #b0c4de; /* 米藍色 */
 }
