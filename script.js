@@ -74,11 +74,11 @@ function updateElapsedDisplay() {
     document.getElementById("noBreakTime").textContent = `距離上次休息：${elapsedSinceLastBreak} 秒`;
 }
 
-// 更新倒數顯示
+// 更新倒數顯示，確保顯示「分鐘」和「秒」的格式
 function updateTimerDisplay() {
     const minutes = Math.floor(remainingTime / 60);
     const seconds = remainingTime % 60;
-    document.getElementById("timerDisplay").textContent = `剩餘時間：${minutes} 分 ${seconds} 秒`;
+    document.getElementById("timerDisplay").textContent = `剩餘時間：${minutes} 分 ${seconds.toString().padStart(2, '0')} 秒`;
 }
 
 // 倒數結束後的處理
