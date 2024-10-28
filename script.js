@@ -1,136 +1,67 @@
 let countdown;
-let breakCountdown;
 let countdownTime = 5; // 5 秒倒數時間
-let breakTime = 3; // 3 秒休息時間
 let remainingTime = countdownTime;
 let lastGoal = "";
-let noBreakTime = 0;
-let goalHistory = {}; // 儲存目標次數和累計時間
+let goalTextInput;
 
-// 檢查並請求通知權限
-if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-    Notification.requestPermission();
-}
-
-// YouTube API 初始化
-let player;
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        events: {
-            'onReady': onPlayerReady
-        }
-    });
-}
-
-function onPlayerReady(event) {
-    event.target.mute(); // 初始靜音
-}
-
-function startTimer() {
-    const goalText = document.getElementById("goalText").value || lastGoal || "未命名目標";
-    
-    if (goalText) {
-        lastGoal = goalText;
-        if (!goalHistory[goalText]) {
-            goalHistory[goalText] = { count: 0, totalTime: 0 };
-        }
-        goalHistory[goalText].count += 1;
-        
-        updateHistory();
-        document.getElementById("goalText").value = "";
+// 初始化：等待使用者點選播放 YouTube Iframe
+function init() {
+    // 請求通知權限
+    if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+        Notification.requestPermission();
     }
     
-    clearInterval(countdown);
-    clearInterval(breakCountdown);
+    goalTextInput = document.getElementById("goalText");
+    document.getElementById("startButton").addEventListener("click", startTimer);
+    document.getElementById("restButton").addEventListener("click", restMode);
+    document.getElementById("restButton").style.display = "none"; // 隱藏休息按鈕
+}
+
+// 開始倒數計時
+function startTimer() {
+    document.body.style.backgroundColor = "white"; // 變成白色
     remainingTime = countdownTime;
-    noBreakTime = 0;
-    
-    // 開始倒數並解除靜音播放音樂
-    player.playVideo(); // 開始播放
-    player.unMute(); // 解除靜音
+    goalTextInput.value = goalTextInput.value; // 保持目標文字
     updateTimerDisplay();
+
+    clearInterval(countdown);
     countdown = setInterval(timerTick, 1000);
 }
 
+// 每秒倒數
 function timerTick() {
     remainingTime--;
-    noBreakTime++;
     updateTimerDisplay();
 
     if (remainingTime <= 0) {
         clearInterval(countdown);
-        goalHistory[lastGoal].totalTime += countdownTime;
-        player.mute(); // 倒數結束後靜音
-        showNotification("目標時間到！", `目標：「${lastGoal}」時間已到。是否要繼續、休息3秒，或停止？`);
+        timeUp();
     }
 }
 
+// 倒數結束時的處理
+function timeUp() {
+    document.body.style.backgroundColor = "#f5deb3"; // 變成米黃色
+    muteYouTubePlayer(); // 靜音 YouTube Iframe
+    document.getElementById("restButton").style.display = "block"; // 顯示休息按鈕
+}
+
+// 休息模式
+function restMode() {
+    document.body.style.backgroundColor = "#b0c4de"; // 變成米藍色
+    document.getElementById("restButton").style.display = "none"; // 隱藏休息按鈕
+}
+
+// 更新倒數計時顯示
 function updateTimerDisplay() {
-    document.getElementById("timerDisplay").textContent = `剩餘時間：${remainingTime}秒`;
-    document.getElementById("noBreakTime").textContent = `距離上次休息：${noBreakTime}秒`;
+    document.getElementById("timerDisplay").textContent = `剩餘時間：${remainingTime} 秒`;
 }
 
-function updateHistory() {
-    const historyList = document.getElementById("goalHistory");
-    historyList.innerHTML = "";
-    for (const goal in goalHistory) {
-        const li = document.createElement("li");
-        li.textContent = `${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime}秒`;
-        li.addEventListener("click", () => setGoal(goal));
-        historyList.appendChild(li);
-    }
+// 靜音 YouTube Iframe
+function muteYouTubePlayer() {
+    const player = document.getElementById("player");
+    player.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
 }
 
-function setGoal(goal) {
-    document.getElementById("goalText").value = goal;
-}
-
-function showNotification(title, message) {
-    // 確保通知權限已獲得
-    if (Notification.permission === "granted") {
-        const notification = new Notification(title, { body: message });
-        
-        // 播放音效
-        new Audio('notification.mp3').play();
-        
-        // 點擊通知的處理
-        notification.onclick = () => {
-            window.focus();  // 可選擇使視窗聚焦
-            notification.close();
-        };
-    } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then(permission => {
-            if (permission === "granted") {
-                showNotification(title, message);
-            }
-        });
-    }
-}
-
-function handleAction() {
-    const action = prompt("是否要繼續、休息3秒還是停止？（輸入繼續/休息/停止）");
-    if (action === "繼續") {
-        startTimer();
-    } else if (action === "休息") {
-        noBreakTime = 0;
-        remainingTime = breakTime;
-        breakCountdown = setInterval(breakTick, 1000);
-    } else {
-        alert("計時停止。");
-    }
-}
-
-function breakTick() {
-    remainingTime--;
-    updateTimerDisplay();
-    if (remainingTime <= 0) {
-        clearInterval(breakCountdown);
-        showNotification("休息時間到！", "是否要繼續目標？");
-    }
-}
-
-// 加載 YouTube Iframe API
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// 初始化事件監聽器
+window.onload = init;
