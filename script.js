@@ -1,6 +1,6 @@
 let countdown;
-let remainingTime = 5; // 計時倒數的初始時間
-let breakTime = 3; // 休息倒數的初始時間
+let remainingTime = 10; // 計時倒數的初始時間
+let breakTime = 5; // 休息倒數的初始時間
 let goalHistory = {}; // 記錄目標的使用次數與累計時間
 let lastGoal = ""; // 記錄上一次的目標
 let elapsedSinceLastBreak = 0; // 計算距離上次休息的時間
