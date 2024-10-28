@@ -28,18 +28,15 @@ function startTimer() {
         currentPlaylist = playlistId; // 更新當前播放清單
     }
 
-    // 檢查是否已有倒數進行中，若有，先將目前的執行狀態記錄到歷史目標
-    if (remainingTime < initialTime) {
-        const goalText = document.getElementById("goalText").value;
-        if (goalText) {
-            if (!goalHistory[goalText]) {
-                goalHistory[goalText] = { count: 0, totalTime: 0 };
-            }
-            const elapsedTime = initialTime - remainingTime; // 計算已執行的時間
-            goalHistory[goalText].count += 1;
-            goalHistory[goalText].totalTime += elapsedTime;
-            updateHistory();
+    // 檢查是否已有倒數進行中，若有，先將上一次的目標記錄到歷史目標
+    if (lastGoal && remainingTime < initialTime) {
+        if (!goalHistory[lastGoal]) {
+            goalHistory[lastGoal] = { count: 0, totalTime: 0 };
         }
+        const elapsedTime = initialTime - remainingTime; // 計算已執行的時間
+        goalHistory[lastGoal].count += 1;
+        goalHistory[lastGoal].totalTime += elapsedTime;
+        updateHistory();
     }
 
     // 重設倒數
@@ -47,13 +44,13 @@ function startTimer() {
 
     player.unMute(); // 取消靜音 YouTube 播放器
 
+    // 更新新目標並記錄為 lastGoal
     const goalText = document.getElementById("goalText").value;
+    lastGoal = goalText; // 設定新目標為 lastGoal，記錄下一次使用
     if (goalText) {
-        lastGoal = goalText;
         if (!goalHistory[goalText]) {
             goalHistory[goalText] = { count: 0, totalTime: 0 };
         }
-        goalHistory[goalText].count += 1;
     }
 
     document.body.className = "background-normal"; // 設置背景為米色
@@ -157,10 +154,6 @@ function endBreak() {
 
 // 更新歷史清單
 function updateHistory() {
-    const goalText = document.getElementById("goalText").value;
-    if (goalText && goalHistory[goalText]) {
-        goalHistory[goalText].totalTime += initialTime - remainingTime; // 累計每次倒數時間
-    }
     const historyList = document.getElementById("goalHistory");
     historyList.innerHTML = "";
     for (const goal in goalHistory) {
