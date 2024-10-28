@@ -71,6 +71,9 @@ function updateTimerDisplay() {
 function endTimer() {
     player.mute(); // 靜音 YouTube 播放器
     alert("時間到！請查看並決定是否進入休息模式。"); // 彈出提示視窗
+
+    const timerDisplaySection = document.getElementById("timer-display-section");
+    timerDisplaySection.classList.add("flash"); // 添加閃爍效果
     document.getElementById("breakButton").style.display = "inline"; // 顯示休息按鈕
     updateHistory(); // 更新歷史清單
 }
@@ -85,6 +88,7 @@ function pauseTimer() {
 
 // 進入休息狀態
 function startBreak() {
+    document.getElementById("timer-display-section").classList.remove("flash"); // 移除閃爍效果
     document.body.className = "background-break"; // 設置背景為米藍色
     document.getElementById("breakButton").style.display = "none"; // 隱藏休息按鈕
     document.getElementById("todoList").style.display = "block"; // 顯示待辦事項
@@ -113,31 +117,4 @@ function breakTick() {
 function endBreak() {
     alert("休息時間到！請查看並決定是否繼續下一輪計時。"); // 彈出提示視窗
     document.body.className = "background-normal"; // 回到正常背景
-    document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
-    updateHistory(); // 更新歷史清單
-    startTimer(); // 返回計時模式
-}
-
-// 更新歷史清單
-function updateHistory() {
-    const goalText = document.getElementById("goalText").value;
-    if (goalText && goalHistory[goalText]) {
-        goalHistory[goalText].totalTime += 5; // 累計每次倒數時間
-    }
-    const historyList = document.getElementById("goalHistory");
-    historyList.innerHTML = "";
-    for (const goal in goalHistory) {
-        const li = document.createElement("li");
-        li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime}秒`;
-        li.onclick = () => {
-            document.getElementById("goalText").value = goal; // 點選歷史項目填入輸入框
-        };
-        historyList.prepend(li);
-    }
-}
-
-// 加載 YouTube Iframe API
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    document.getElementById("todoList").style.display = "none"; // 隱藏待
