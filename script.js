@@ -3,6 +3,8 @@ let remainingTime = 5; // 倒數 5 秒
 let breakTime = 3; // 休息 3 秒
 let goalHistory = {}; // 儲存目標的累積次數與累積時間
 let lastGoal = "";
+let elapsedSinceLastBreak = 0; // 記錄距離上次休息的時間
+let elapsedInterval; // 用於計時「距離上次休息」
 
 // 初始化 YouTube 播放器
 let player;
@@ -27,9 +29,19 @@ function startTimer() {
 
     document.body.className = "background-normal";
     clearInterval(countdown);
+    clearInterval(elapsedInterval);
     remainingTime = 5;
+    elapsedInterval = setInterval(() => {
+        elapsedSinceLastBreak++;
+        updateElapsedDisplay();
+    }, 1000);
     updateTimerDisplay();
     countdown = setInterval(timerTick, 1000);
+}
+
+// 更新「距離上次休息」的顯示
+function updateElapsedDisplay() {
+    document.getElementById("noBreakTime").textContent = `距離上次休息：${elapsedSinceLastBreak} 秒`;
 }
 
 // 計時每秒減少
@@ -66,6 +78,9 @@ function startBreak() {
     document.body.className = "background-break";
     document.getElementById("breakButton").style.display = "none";
     document.getElementById("todoList").style.display = "block";
+    clearInterval(elapsedInterval); // 停止距離上次休息的計時
+    elapsedSinceLastBreak = 0; // 重設「距離上次休息」時間
+    updateElapsedDisplay(); // 更新顯示
     remainingTime = breakTime;
     updateTimerDisplay();
     countdown = setInterval(breakTick, 1000);
