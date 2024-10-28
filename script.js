@@ -1,6 +1,6 @@
 let countdown;
-let remainingTime = 10; // 計時倒數的初始時間
-let breakTime = 5; // 休息倒數的初始時間
+let remainingTime = 1200; // 計時倒數的初始時間為 20 分鐘 (1200 秒)
+let breakTime = 600; // 休息倒數的初始時間為 10 分鐘 (600 秒)
 let goalHistory = {}; // 記錄目標的使用次數與累計時間
 let lastGoal = ""; // 記錄上一次的目標
 let elapsedSinceLastBreak = 0; // 計算距離上次休息的時間
@@ -26,7 +26,6 @@ function startTimer() {
         currentPlaylist = playlistId; // 更新當前播放清單
     }
 
-    
     // 移除閃爍效果
     document.getElementById("timer-display-section").classList.remove("flash");
 
@@ -44,7 +43,7 @@ function startTimer() {
     document.body.className = "background-normal"; // 設置背景為米色
     clearInterval(countdown); // 清除之前的倒數計時器
     clearInterval(elapsedInterval); // 清除距離上次休息的計時器
-    remainingTime = 10; // 重設倒數時間
+    remainingTime = 1200; // 重設倒數時間為 20 分鐘
     updateElapsedDisplay(); // 更新距離上次休息顯示
     updateTimerDisplay(); // 更新倒數顯示
 
@@ -76,7 +75,7 @@ function updateElapsedDisplay() {
 
 // 更新倒數顯示
 function updateTimerDisplay() {
-    document.getElementById("timerDisplay").textContent = `剩餘時間：${remainingTime} 秒`;
+    document.getElementById("timerDisplay").textContent = `剩餘時間：${Math.floor(remainingTime / 60)} 分 ${remainingTime % 60} 秒`;
 }
 
 // 倒數結束後的處理
@@ -98,11 +97,9 @@ function pauseTimer() {
 
 // 進入休息狀態
 function startBreak() {
-    
     // 切換 YouTube 影片到指定的休息時間影片
     player.loadVideoById("NobJD8The0Q");
     player.unMute(); // 取消靜音 YouTube 播放器
-
 
     document.getElementById("timer-display-section").classList.remove("flash"); // 移除閃爍效果
     document.body.className = "background-break"; // 設置背景為米藍色
@@ -113,7 +110,7 @@ function startBreak() {
     elapsedSinceLastBreak = 0; // 重設距離上次休息的時間
     updateElapsedDisplay(); // 更新距離上次休息顯示
 
-    remainingTime = breakTime; // 設置休息時間
+    remainingTime = breakTime; // 設置休息時間為 10 分鐘
     updateTimerDisplay(); // 更新倒數顯示
     countdown = setInterval(breakTick, 1000); // 開始休息倒數計時
 }
@@ -145,13 +142,13 @@ function endBreak() {
 function updateHistory() {
     const goalText = document.getElementById("goalText").value;
     if (goalText && goalHistory[goalText]) {
-        goalHistory[goalText].totalTime += 5; // 累計每次倒數時間
+        goalHistory[goalText].totalTime += 1200; // 累計每次倒數時間為 20 分鐘
     }
     const historyList = document.getElementById("goalHistory");
     historyList.innerHTML = "";
     for (const goal in goalHistory) {
         const li = document.createElement("li");
-        li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime}秒`;
+        li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime / 60} 分鐘`;
         li.onclick = () => {
             document.getElementById("goalText").value = goal; // 點選歷史項目填入輸入框
         };
