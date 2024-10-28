@@ -1,5 +1,6 @@
 let countdown;
-let remainingTime = 1200; // 計時倒數的初始時間為 20 分鐘 (1200 秒)
+let initialTime = 1200; // 計時倒數的初始時間為 20 分鐘 (1200 秒)
+let remainingTime = initialTime;
 let breakTime = 600; // 休息倒數的初始時間為 10 分鐘 (600 秒)
 let goalHistory = {}; // 記錄目標的使用次數與累計時間
 let lastGoal = ""; // 記錄上一次的目標
@@ -27,7 +28,21 @@ function startTimer() {
         currentPlaylist = playlistId; // 更新當前播放清單
     }
 
-    // 移除閃爍效果
+    // 檢查是否已有倒數進行中，若有，先將目前的執行狀態記錄到歷史目標
+    if (remainingTime < initialTime) {
+        const goalText = document.getElementById("goalText").value;
+        if (goalText) {
+            if (!goalHistory[goalText]) {
+                goalHistory[goalText] = { count: 0, totalTime: 0 };
+            }
+            const elapsedTime = initialTime - remainingTime; // 計算已執行的時間
+            goalHistory[goalText].count += 1;
+            goalHistory[goalText].totalTime += elapsedTime;
+            updateHistory();
+        }
+    }
+
+    // 重設倒數
     document.getElementById("timer-display-section").classList.remove("flash");
 
     player.unMute(); // 取消靜音 YouTube 播放器
@@ -44,7 +59,7 @@ function startTimer() {
     document.body.className = "background-normal"; // 設置背景為米色
     clearInterval(countdown); // 清除之前的倒數計時器
     clearInterval(elapsedInterval); // 清除距離上次休息的計時器
-    remainingTime = 1200; // 重設倒數時間為 20 分鐘
+    remainingTime = initialTime; // 重設倒數時間為 20 分鐘
     updateElapsedDisplay(); // 更新距離上次休息顯示
     updateTimerDisplay(); // 更新倒數顯示
 
@@ -144,13 +159,13 @@ function endBreak() {
 function updateHistory() {
     const goalText = document.getElementById("goalText").value;
     if (goalText && goalHistory[goalText]) {
-        goalHistory[goalText].totalTime += 1200; // 累計每次倒數時間為 20 分鐘
+        goalHistory[goalText].totalTime += initialTime - remainingTime; // 累計每次倒數時間
     }
     const historyList = document.getElementById("goalHistory");
     historyList.innerHTML = "";
     for (const goal in goalHistory) {
         const li = document.createElement("li");
-        li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime / 60} 分鐘`;
+        li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${Math.floor(goalHistory[goal].totalTime / 60)} 分鐘 ${goalHistory[goal].totalTime % 60} 秒`;
         li.onclick = () => {
             document.getElementById("goalText").value = goal; // 點選歷史項目填入輸入框
         };
