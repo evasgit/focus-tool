@@ -5,6 +5,7 @@ let goalHistory = {}; // 記錄目標的使用次數與累計時間
 let lastGoal = ""; // 記錄上一次的目標
 let elapsedSinceLastBreak = 0; // 計算距離上次休息的時間
 let elapsedInterval; // 用於管理「距離上次休息」的計時器
+let currentPlaylist = ""; // 用來記錄當前播放清單
 
 // 初始化 YouTube 播放器
 let player;
@@ -75,7 +76,9 @@ function updateElapsedDisplay() {
 
 // 更新倒數顯示
 function updateTimerDisplay() {
-    document.getElementById("timerDisplay").textContent = `剩餘時間：${Math.floor(remainingTime / 60)} 分 ${remainingTime % 60} 秒`;
+    const minutes = Math.floor(remainingTime / 60);
+    const seconds = remainingTime % 60;
+    document.getElementById("timerDisplay").textContent = `剩餘時間：${minutes} 分 ${seconds} 秒`;
 }
 
 // 倒數結束後的處理
@@ -100,6 +103,7 @@ function startBreak() {
     // 切換 YouTube 影片到指定的休息時間影片
     player.loadVideoById("NobJD8The0Q");
     player.unMute(); // 取消靜音 YouTube 播放器
+    currentPlaylist = ""; // 清空當前播放清單，因為切換到單一影片
 
     document.getElementById("timer-display-section").classList.remove("flash"); // 移除閃爍效果
     document.body.className = "background-break"; // 設置背景為米藍色
