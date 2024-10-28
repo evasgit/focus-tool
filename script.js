@@ -45,9 +45,9 @@ function startTimer() {
     remainingTime = countdownTime;
     noBreakTime = 0;
     
-    // 開始倒數並靜音播放音樂
+    // 開始倒數並解除靜音播放音樂
     player.playVideo(); // 開始播放
-    player.mute(); // 靜音
+    player.unMute(); // 解除靜音
     updateTimerDisplay();
     countdown = setInterval(timerTick, 1000);
 }
@@ -60,6 +60,7 @@ function timerTick() {
     if (remainingTime <= 0) {
         clearInterval(countdown);
         goalHistory[lastGoal].totalTime += countdownTime;
+        player.mute(); // 倒數結束後靜音
         showNotification("目標時間到！", `目標：「${lastGoal}」時間已到。是否要繼續、休息3秒，或停止？`);
     }
 }
