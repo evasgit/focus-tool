@@ -126,7 +126,7 @@ function updateHistory() {
     historyList.innerHTML = "";
     for (const goal in goalHistory) {
         const li = document.createElement("li");
-        li.textContent = `     ${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime}秒`;
+        li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime}秒`;
         li.onclick = () => {
             document.getElementById("goalText").value = goal; // 點選歷史項目填入輸入框
         };
