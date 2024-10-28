@@ -78,6 +78,8 @@ function endTimer() {
 
 // 暫停計時
 function pauseTimer() {
+    player.mute(); // 靜音 YouTube 播放器
+
     clearInterval(countdown); // 停止倒數計時
     clearInterval(elapsedInterval); // 停止距離上次休息的計時器
 }
