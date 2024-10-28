@@ -28,8 +28,9 @@ function startTimer() {
         currentPlaylist = playlistId; // 更新當前播放清單
     }
 
-    // 檢查是否已有倒數進行中，若有，先將上一次的目標記錄到歷史目標
-    if (lastGoal && remainingTime < initialTime) {
+    // 檢查是否已有倒數進行中且剩餘時間不為零
+    if (lastGoal && remainingTime < initialTime && remainingTime > 0) {
+        // 將目前的目標和已經執行的時間加入歷史紀錄
         if (!goalHistory[lastGoal]) {
             goalHistory[lastGoal] = { count: 0, totalTime: 0 };
         }
@@ -95,10 +96,19 @@ function updateTimerDisplay() {
 
 // 倒數結束後的處理
 function endTimer() {
+    // 倒數結束時，自動將目標加入歷史
+    if (lastGoal) {
+        if (!goalHistory[lastGoal]) {
+            goalHistory[lastGoal] = { count: 0, totalTime: 0 };
+        }
+        goalHistory[lastGoal].count += 1;
+        goalHistory[lastGoal].totalTime += initialTime;
+        updateHistory();
+    }
+
     player.mute(); // 靜音 YouTube 播放器
     const timerDisplaySection = document.getElementById("timer-display-section");
     timerDisplaySection.classList.add("flash"); // 添加閃爍效果
-    updateHistory(); // 更新歷史清單
 }
 
 // 暫停計時
