@@ -1,11 +1,16 @@
 let countdown;
 let breakCountdown;
 let countdownTime = 5; // 5 秒倒數時間
-let breakTime = 3; // 3 秒休息
+let breakTime = 3; // 3 秒休息時間
 let remainingTime = countdownTime;
 let lastGoal = "";
 let noBreakTime = 0;
-let goalHistory = {}; // 儲存目標次數和時間記錄
+let goalHistory = {}; // 儲存目標次數和累計時間
+
+// 檢查並請求通知權限
+if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+    Notification.requestPermission();
+}
 
 function startTimer() {
     const goalText = document.getElementById("goalText").value || lastGoal || "未命名目標";
@@ -64,10 +69,18 @@ function setGoal(goal) {
 }
 
 function showNotification(title, message) {
+    // 確保通知權限已獲得
     if (Notification.permission === "granted") {
         const notification = new Notification(title, { body: message });
-        notification.addEventListener("show", () => new Audio('notification.mp3').play()); // 播放音效提醒
-        notification.onclick = () => handleAction();
+        
+        // 播放音效
+        new Audio('notification.mp3').play();
+        
+        // 點擊通知的處理
+        notification.onclick = () => {
+            window.focus();  // 可選擇使視窗聚焦
+            notification.close();
+        };
     } else if (Notification.permission !== "denied") {
         Notification.requestPermission().then(permission => {
             if (permission === "granted") {
@@ -97,9 +110,4 @@ function breakTick() {
         clearInterval(breakCountdown);
         showNotification("休息時間到！", "是否要繼續目標？");
     }
-}
-
-// 請求通知權限
-if (Notification.permission !== "granted" && Notification.permission !== "denied") {
-    Notification.requestPermission();
 }
