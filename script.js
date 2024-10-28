@@ -92,8 +92,11 @@ function pauseTimer() {
 
 // 進入休息狀態
 function startBreak() {
+    
     // 切換 YouTube 影片到指定的休息時間影片
     player.loadVideoById("NobJD8The0Q");
+    player.unMute(); // 取消靜音 YouTube 播放器
+
 
     document.getElementById("timer-display-section").classList.remove("flash"); // 移除閃爍效果
     document.body.className = "background-break"; // 設置背景為米藍色
