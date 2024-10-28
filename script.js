@@ -7,6 +7,7 @@ let lastGoal = ""; // 記錄上一次的目標
 let elapsedSinceLastBreak = 0; // 計算距離上次休息的時間
 let elapsedInterval; // 用於管理「距離上次休息」的計時器
 let currentPlaylist = ""; // 用來記錄當前播放清單
+let hasRecordedHistory = false; // 用於確保每個目標僅記錄一次歷史
 
 // 初始化 YouTube 播放器
 let player;
@@ -28,6 +29,9 @@ function startTimer() {
         currentPlaylist = playlistId; // 更新當前播放清單
     }
 
+    // 隱藏待辦事項
+    document.getElementById("todoList").style.display = "none";
+
     // 檢查是否已有倒數進行中且剩餘時間不為零
     if (lastGoal && remainingTime < initialTime && remainingTime > 0) {
         // 將目前的目標和已經執行的時間加入歷史紀錄
@@ -39,9 +43,6 @@ function startTimer() {
         goalHistory[lastGoal].totalTime += elapsedTime;
         updateHistory();
     }
-
-    // 隱藏待辦事項
-    document.getElementById("todoList").style.display = "none";
 
     // 重設倒數
     document.getElementById("timer-display-section").classList.remove("flash");
@@ -61,6 +62,7 @@ function startTimer() {
     clearInterval(countdown); // 清除之前的倒數計時器
     clearInterval(elapsedInterval); // 清除距離上次休息的計時器
     remainingTime = initialTime; // 重設倒數時間為 20 分鐘
+    hasRecordedHistory = false; // 重設歷史記錄標誌
     updateElapsedDisplay(); // 更新距離上次休息顯示
     updateTimerDisplay(); // 更新倒數顯示
 
@@ -76,12 +78,11 @@ function startTimer() {
 
 // 每秒更新倒數計時
 function timerTick() {
-    remainingTime--;
+    remainingTime = Math.max(0, remainingTime - 1); // 避免出現負數
     updateTimerDisplay();
 
-    if (remainingTime <= 0) {
-        clearInterval(countdown); // 停止倒數計時
-        endTimer(); // 倒數結束處理
+    if (remainingTime <= 0 && !hasRecordedHistory) {
+        endTimer(); // 倒數結束處理，並記錄歷史
     }
 }
 
@@ -99,14 +100,14 @@ function updateTimerDisplay() {
 
 // 倒數結束後的處理
 function endTimer() {
-    // 倒數結束時，自動將目標加入歷史
-    if (lastGoal) {
+    if (lastGoal && !hasRecordedHistory) {
         if (!goalHistory[lastGoal]) {
             goalHistory[lastGoal] = { count: 0, totalTime: 0 };
         }
         goalHistory[lastGoal].count += 1;
         goalHistory[lastGoal].totalTime += initialTime;
         updateHistory();
+        hasRecordedHistory = true; // 確保只記錄一次
     }
 
     player.mute(); // 靜音 YouTube 播放器
@@ -144,7 +145,7 @@ function startBreak() {
 
 // 每秒減少休息倒數時間
 function breakTick() {
-    remainingTime--;
+    remainingTime = Math.max(0, remainingTime - 1); // 避免出現負數
     updateTimerDisplay();
 
     if (remainingTime <= 0) {
@@ -155,14 +156,10 @@ function breakTick() {
 
 // 結束休息
 function endBreak() {
-    // 添加閃爍效果來提示休息結束
-    document.getElementById("timer-display-section").classList.add("flash");
-
+    document.getElementById("timer-display-section").classList.add("flash"); // 添加閃爍效果
     document.body.className = "background-normal"; // 回到正常背景
     document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
     updateHistory(); // 更新歷史清單
-
-    // 不自動重新開始計時，等待使用者手動按下「開始」
 }
 
 // 更新歷史清單
