@@ -18,9 +18,15 @@ function onYouTubeIframeAPIReady() {
 
 // 開始計時
 function startTimer() {
-    // 切換回原本的播放清單
-    player.loadPlaylist({ list: 'PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP' });
+    const playlistId = 'PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP';
 
+    // 如果當前播放清單不是目標清單，才載入播放清單
+    if (currentPlaylist !== playlistId) {
+        player.loadPlaylist({ list: playlistId });
+        currentPlaylist = playlistId; // 更新當前播放清單
+    }
+
+    
     // 移除閃爍效果
     document.getElementById("timer-display-section").classList.remove("flash");
 
