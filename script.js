@@ -33,7 +33,6 @@ function startTimer() {
     clearInterval(countdown); // 清除之前的倒數計時器
     clearInterval(elapsedInterval); // 清除距離上次休息的計時器
     remainingTime = 5; // 重設倒數時間
-    // elapsedSinceLastBreak = 0; // 重設距離上次休息的時間
     updateElapsedDisplay(); // 更新距離上次休息顯示
     updateTimerDisplay(); // 更新倒數顯示
 
@@ -71,7 +70,7 @@ function updateTimerDisplay() {
 // 倒數結束後的處理
 function endTimer() {
     player.mute(); // 靜音 YouTube 播放器
-    document.body.className = "background-alert"; // 切換為警示背景（閃爍效果）
+    alert("時間到！請查看並決定是否進入休息模式。"); // 彈出提示視窗
     document.getElementById("breakButton").style.display = "inline"; // 顯示休息按鈕
     updateHistory(); // 更新歷史清單
 }
@@ -112,7 +111,8 @@ function breakTick() {
 
 // 結束休息
 function endBreak() {
-    document.body.className = "background-alert"; // 切換為警示背景
+    alert("休息時間到！請查看並決定是否繼續下一輪計時。"); // 彈出提示視窗
+    document.body.className = "background-normal"; // 回到正常背景
     document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
     updateHistory(); // 更新歷史清單
     startTimer(); // 返回計時模式
