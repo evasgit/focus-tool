@@ -18,6 +18,8 @@ function onYouTubeIframeAPIReady() {
 
 // 開始計時
 function startTimer() {
+    player.unmute(); // 取消靜音 YouTube 播放器
+
     const goalText = document.getElementById("goalText").value;
     if (goalText) {
         lastGoal = goalText;
