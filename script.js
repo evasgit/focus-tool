@@ -128,7 +128,8 @@ function endBreak() {
     document.body.className = "background-normal"; // 回到正常背景
     document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
     updateHistory(); // 更新歷史清單
-    startTimer(); // 返回計時模式
+
+    // 不自動重新開始計時，等待使用者手動按下「開始」
 }
 
 // 更新歷史清單
