@@ -1,136 +1,161 @@
-let countdown;
-let remainingTime = 5; // 倒數開始時間
-let breakTime = 3; // 休息時間
-let goalHistory = {}; // 用於記錄目標的歷史
-let lastGoal = "";
-let elapsedSinceLastBreak = 0; // 距離上次休息的時間
-let elapsedInterval;
-
-// 初始化 YouTube 播放器
-let player;
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        events: {
-            'onReady': () => { }
-        }
-    });
+/* 全局樣式 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
 }
 
-// 開始計時
-function startTimer() {
-    const goalText = document.getElementById("goalText").value;
-    if (goalText) {
-        lastGoal = goalText;
-        if (!goalHistory[goalText]) {
-            goalHistory[goalText] = { count: 0, totalTime: 0 };
-        }
-        goalHistory[goalText].count += 1;
-    }
-
-    document.body.className = "background-normal";
-    clearInterval(countdown); // 確保之前的倒數計時已清除
-    clearInterval(elapsedInterval); // 清除距離上次休息的計時
-    remainingTime = 5; // 重置剩餘時間
-    elapsedSinceLastBreak = 0; // 重置距離上次休息時間
-    updateElapsedDisplay(); // 顯示重置的距離上次休息時間
-    updateTimerDisplay(); // 更新倒數顯示
-
-    // 開始「距離上次休息」的計時
-    elapsedInterval = setInterval(() => {
-        elapsedSinceLastBreak++;
-        updateElapsedDisplay();
-    }, 1000);
-
-    // 開始倒數計時
-    countdown = setInterval(timerTick, 1000);
+header {
+    margin-bottom: 20px;
 }
 
-// 每秒更新倒數計時
-function timerTick() {
-    remainingTime--;
-    updateTimerDisplay();
-
-    if (remainingTime <= 0) {
-        clearInterval(countdown); // 停止倒數計時
-        endTimer(); // 倒數結束處理
-    }
+h1 {
+    font-size: 2.5em;
+    color: #4a4a4a;
 }
 
-// 更新「距離上次休息」的顯示
-function updateElapsedDisplay() {
-    document.getElementById("noBreakTime").textContent = `距離上次休息：${elapsedSinceLastBreak} 秒`;
+/* 目標輸入區域 */
+#goal-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px;
 }
 
-// 更新倒數顯示
-function updateTimerDisplay() {
-    document.getElementById("timerDisplay").textContent = `剩餘時間：${remainingTime} 秒`;
+#goalText {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-// 倒數結束後的處理
-function endTimer() {
-    player.mute(); // 靜音 YouTube 播放器
-    document.body.className = "background-alert"; // 切換為警示模式（觸發閃爍動畫）
-    document.getElementById("breakButton").style.display = "inline"; // 顯示休息按鈕
-    updateHistory(); // 更新歷史清單
+/* 按鈕樣式 */
+button {
+    padding: 10px 15px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s;
 }
 
-// 暫停計時
-function pauseTimer() {
-    clearInterval(countdown); // 停止倒數
-    clearInterval(elapsedInterval); // 停止「距離上次休息」的計時
+button.primary {
+    background-color: #007bff;
 }
 
-// 進入休息狀態
-function startBreak() {
-    document.body.className = "background-break";
-    document.getElementById("breakButton").style.display = "none"; // 隱藏休息按鈕
-    document.getElementById("todoList").style.display = "block"; // 顯示待辦事項
-
-    clearInterval(elapsedInterval); // 停止「距離上次休息」的計時
-    elapsedSinceLastBreak = 0; // 重置「距離上次休息」時間
-    updateElapsedDisplay(); // 更新顯示
-
-    remainingTime = breakTime; // 重置休息時間
-    updateTimerDisplay(); // 更新顯示
-    countdown = setInterval(breakTick, 1000); // 開始休息倒數計時
+button.primary:hover {
+    background-color: #0056b3;
 }
 
-// 每秒減少休息倒數時間
-function breakTick() {
-    remainingTime--;
-    updateTimerDisplay();
-
-    if (remainingTime <= 0) {
-        clearInterval(countdown); // 停止休息倒數
-        endBreak(); // 結束休息
-    }
+button.pause {
+    background-color: #6c757d;
 }
 
-// 結束休息
-function endBreak() {
-    document.body.className = "background-alert";
-    document.getElementById("todoList").style.display = "none"; // 隱藏待辦事項
-    updateHistory(); // 更新歷史清單
-    startTimer(); // 返回計時模式
+button.pause:hover {
+    background-color: #5a6268;
 }
 
-// 更新歷史清單
-function updateHistory() {
-    const goalText = document.getElementById("goalText").value;
-    if (goalText && goalHistory[goalText]) {
-        goalHistory[goalText].totalTime += 5; // 累計每次倒數時間
-    }
-    const historyList = document.getElementById("goalHistory");
-    historyList.innerHTML = "";
-    for (const goal in goalHistory) {
-        const li = document.createElement("li");
-        li.textContent = `${goal} - 使用次數：${goalHistory[goal].count}，累計時間：${goalHistory[goal].totalTime}秒`;
-        historyList.prepend(li);
-    }
+#breakButton {
+    background-color: #28a745;
 }
 
-// 加載 YouTube Iframe API
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+#breakButton:hover {
+    background-color: #218838;
+}
+
+/* 倒數顯示樣式 */
+#timer-display-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+#timerDisplay {
+    font-size: 2em;
+    color: #e74c3c;
+    margin-bottom: 10px;
+}
+
+#noBreakTime {
+    font-size: 1em;
+    color: #555;
+}
+
+/* 歷史區域樣式 */
+#history ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#history li {
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+#history li:hover {
+    background-color: #f1f1f1;
+}
+
+/* 待辦事項清單樣式 */
+#todoList {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+#todoList h3 {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#todoList li {
+    font-size: 1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+/* 背景顏色動畫 */
+.background-normal {
+    background-color: #FF007F;
+}
+
+.background-alert {
+    animation: alertColor 2s infinite;
+}
+
+@keyframes alertColor {
+    0% { background-color: #FF007F; }
+    50% { background-color: #ffffff; }
+}
+
+.background-break {
+    background-color: #b0c4de;
+}
