@@ -12,6 +12,20 @@ if (Notification.permission !== "granted" && Notification.permission !== "denied
     Notification.requestPermission();
 }
 
+// YouTube API 初始化
+let player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+    event.target.mute(); // 初始靜音
+}
+
 function startTimer() {
     const goalText = document.getElementById("goalText").value || lastGoal || "未命名目標";
     
@@ -30,7 +44,10 @@ function startTimer() {
     clearInterval(breakCountdown);
     remainingTime = countdownTime;
     noBreakTime = 0;
-    document.getElementById("player").style.display = "block"; // 顯示播放器
+    
+    // 開始倒數並靜音播放音樂
+    player.playVideo(); // 開始播放
+    player.mute(); // 靜音
     updateTimerDisplay();
     countdown = setInterval(timerTick, 1000);
 }
@@ -42,7 +59,6 @@ function timerTick() {
 
     if (remainingTime <= 0) {
         clearInterval(countdown);
-        document.getElementById("player").style.display = "none"; // 隱藏播放器，達到暫停效果
         goalHistory[lastGoal].totalTime += countdownTime;
         showNotification("目標時間到！", `目標：「${lastGoal}」時間已到。是否要繼續、休息3秒，或停止？`);
     }
@@ -111,3 +127,9 @@ function breakTick() {
         showNotification("休息時間到！", "是否要繼續目標？");
     }
 }
+
+// 加載 YouTube Iframe API
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
