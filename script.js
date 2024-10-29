@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.1"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.2"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -44,6 +44,22 @@ const Timer = {
 
         // 移除閃現效果
         document.getElementById("timer-display-section").classList.remove("flash");
+
+        // 累加當前目標的執行時間到歷史紀錄
+        if (state.lastGoal && state.remainingTime < TIMER_SETTINGS.initialTime && state.remainingTime > 0) {
+            // 計算已執行的時間
+            const elapsedTime = TIMER_SETTINGS.initialTime - state.remainingTime;
+
+            // 將已執行時間加入到歷史紀錄中
+            if (!state.goalHistory[state.lastGoal]) {
+                state.goalHistory[state.lastGoal] = { count: 0, totalTime: 0 };
+            }
+            state.goalHistory[state.lastGoal].count += 1;
+            state.goalHistory[state.lastGoal].totalTime += elapsedTime;
+
+            // 更新歷史清單顯示
+            History.updateHistoryDisplay();
+        }
 
         this.resetElapsedSinceLastBreak();
         this.initializeCountdown(TIMER_SETTINGS.initialTime, this.updateTimerDisplay, this.end);
