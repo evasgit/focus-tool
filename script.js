@@ -3,6 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 const notificationSound = new Audio("notification.mp3");
+notificationSound.volume = 1.0; // 設置音量為最大（0.0 - 1.0）
 
 const TIMER_SETTINGS = {
     initialTime: 12, // 20 分鐘 (1200 秒)
