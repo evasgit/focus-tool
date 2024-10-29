@@ -37,6 +37,17 @@ h1 {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+#customTime {
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
 /* 按鈕樣式 */
 #button-group {
     margin-top: 10px;
