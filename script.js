@@ -2,6 +2,16 @@ let countdown;
 let elapsedInterval;
 let player;
 let currentPlaylist = "";
+
+const versionNumber = "v1.0.0"; // 或從其他來源動態獲取版本號
+document.addEventListener("DOMContentLoaded", () => {
+    const versionElement = document.getElementById("version");
+    if (versionElement) {
+        versionElement.textContent = versionNumber;
+    }
+});
+
+
 const notificationSound = new Audio("notification.mp3");
 notificationSound.volume = 1.0; // 設置音量為最大（0.0 - 1.0）
 
