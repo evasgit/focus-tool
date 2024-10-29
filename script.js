@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.11"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.12"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -17,8 +17,8 @@ const notificationSound = new Audio("notification.mp3");
 notificationSound.volume = 1.0; // 設置音量為最大（0.0 - 1.0）
 
 const TIMER_SETTINGS = {
-    initialTime: 12, // 20 分鐘 (1200 秒)
-    breakTime: 6 // 10 分鐘 (600 秒)
+    initialTime: 1200, // 20 分鐘 (1200 秒)
+    breakTime: 600 // 10 分鐘 (600 秒)
 };
 
 const state = {
