@@ -31,7 +31,9 @@ const Timer = {
         notificationSound.play().catch(() => {
             alert("音效預載失敗，但可以在結束時播放");
         });
-        
+
+        UI.resetBackground();
+
         this.resetElapsedSinceLastBreak();
         this.initializeCountdown(TIMER_SETTINGS.initialTime, this.updateTimerDisplay, this.end);
         UI.toggleTodoList(false);
