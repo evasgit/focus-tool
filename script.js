@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.5"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.6"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -37,6 +37,8 @@ function onYouTubeIframeAPIReady() {
 // 計時器管理
 const Timer = {
     start() {
+        UI.toggleTodoList(false);
+        
         // 確保音效在首次互動時被允許
         notificationSound.load();
         notificationSound.play().catch(() => {
@@ -123,7 +125,6 @@ const Timer = {
 
     endBreak() {
         UI.resetBackground();
-        UI.toggleTodoList(false);
         notificationSound.play().catch(() => {
             alert("休息結束音效播放失敗，可能受到瀏覽器限制");
         });
