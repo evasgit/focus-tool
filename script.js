@@ -42,7 +42,8 @@ const Timer = {
             alert("音效預載失敗，但可以在結束時播放");
         });
 
-        UI.resetBackground();
+        // 移除閃現效果
+        document.getElementById("timer-display-section").classList.remove("flash");
 
         this.resetElapsedSinceLastBreak();
         this.initializeCountdown(TIMER_SETTINGS.initialTime, this.updateTimerDisplay, this.end);
