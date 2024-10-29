@@ -143,6 +143,15 @@ button.pause:hover {
     margin: 5px 0;
 }
 
+#version {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8em;
+    color: #666; /* 灰色，讓它不過於顯眼 */
+    opacity: 0.7; /* 調低透明度，讓它不搶眼 */
+}
+
 /* 背景顏色動畫樣式 */
 .background-normal {
     background-color: #f5deb3; /* 米色 */
@@ -171,3 +180,4 @@ button.pause:hover {
     50% { background-color: #ffffff; }
     100% { background-color: #f5deb3; }
 }
+
