@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.7"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.8"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -38,42 +38,46 @@ function onYouTubeIframeAPIReady() {
 const Timer = {
     start() {
         UI.toggleTodoList(false);
-        
+    
         // 確保音效在首次互動時被允許
         notificationSound.load();
         notificationSound.play().catch(() => {
             alert("音效預載失敗，但可以在結束時播放");
         });
-        
+    
         // 檢查並載入目標播放清單
         const playlistId = "PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP";
         if (currentPlaylist !== playlistId) {
             player.loadPlaylist({ list: playlistId });
             currentPlaylist = playlistId; // 更新當前播放清單
         }
-        
+    
         // 移除閃現效果
         document.getElementById("timer-display-section").classList.remove("flash");
-
+    
+        // 讀取用戶自定義的分鐘數，若無輸入則使用預設值
+        const customMinutes = parseInt(document.getElementById("customTime").value);
+        const initialTime = !isNaN(customMinutes) ? customMinutes * 60 : TIMER_SETTINGS.initialTime;
+        state.remainingTime = initialTime; // 將計時器的初始時間設定為用戶輸入或預設時間
+    
         // 累加當前目標的執行時間到歷史紀錄
-        if (state.lastGoal && state.remainingTime < TIMER_SETTINGS.initialTime && state.remainingTime > 0) {
+        if (state.lastGoal && state.remainingTime < initialTime && state.remainingTime > 0) {
             // 計算已執行的時間
-            const elapsedTime = TIMER_SETTINGS.initialTime - state.remainingTime;
-
+            const elapsedTime = initialTime - state.remainingTime;
+    
             // 將已執行時間加入到歷史紀錄中
             if (!state.goalHistory[state.lastGoal]) {
                 state.goalHistory[state.lastGoal] = { count: 0, totalTime: 0 };
             }
             state.goalHistory[state.lastGoal].count += 1;
             state.goalHistory[state.lastGoal].totalTime += elapsedTime;
-
+    
             // 更新歷史清單顯示
             History.updateHistoryDisplay();
         }
-
+    
         this.resetElapsedSinceLastBreak();
-        this.initializeCountdown(TIMER_SETTINGS.initialTime, this.updateTimerDisplay, this.end);
-        UI.toggleTodoList(false);
+        this.initializeCountdown(initialTime, this.updateTimerDisplay, this.end);
         player.unMute();
         this.updateGoal();
     },
