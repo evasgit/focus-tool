@@ -2,6 +2,7 @@ let countdown;
 let elapsedInterval;
 let player;
 let currentPlaylist = "";
+const notificationSound = new Audio("notification.mp3");
 
 const TIMER_SETTINGS = {
     initialTime: 12, // 20 分鐘 (1200 秒)
@@ -70,6 +71,7 @@ const Timer = {
     end() {
         History.recordGoal(state.lastGoal, TIMER_SETTINGS.initialTime);
         player.mute();
+        notificationSound.play(); // 播放音效
         UI.flashTimerDisplay();
     },
 
