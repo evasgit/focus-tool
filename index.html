@@ -16,10 +16,10 @@
         <section id="todoList" style="display:none;">
             <h3>🐸 🐸 🐸 待辦事項</h3>
             <ul style="display: flex; flex-wrap: wrap; list-style-type: none; padding: 0;">
-                <li style="width: 50%;"><label><input type="checkbox"> 喝水</label></li>
-                <li style="width: 50%;"><label><input type="checkbox"> 上廁所</label></li>
-                <li style="width: 50%;"><label><input type="checkbox"> 看訊息</label></li>
-                <li style="width: 50%;"><label><input type="checkbox"> 紀錄進度</label></li>
+                <li style="flex-basis: 100%; text-align: center;"><label><input type="checkbox"> 喝水</label></li>
+                <li style="flex-basis: 100%; text-align: center;"><label><input type="checkbox"> 上廁所</label></li>
+                <li style="flex-basis: 100%; text-align: center;"><label><input type="checkbox"> 看訊息</label></li>
+                <li style="flex-basis: 100%; text-align: center;"><label><input type="checkbox"> 紀錄進度</label></li>
             </ul>
         </section>
         <section id="goal-section">
@@ -28,7 +28,7 @@
                 <input type="number" id="customTime" placeholder="輸入分鐘數" min="1" value="20"> <!-- 新增時間輸入框 -->
                 <button onclick="startTimer()" class="primary">開始</button>
                 <button onclick="pauseTimer()" class="pause">暫停計時</button>
-                <button onclick="startBreak()" id="breakButton">休息 10 分鐘</button>
+                <button onclick="startBreak()" id="breakButton">休息10分鐘</button>
             </div>
         </section>
         <section id="history">
