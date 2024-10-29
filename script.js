@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.4"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.5"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+const targetPlaylistUrl = "https://www.youtube.com/embed/videoseries?list=PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP&enablejsapi=1";
 
 const notificationSound = new Audio("notification.mp3");
 notificationSound.volume = 1.0; // 設置音量為最大（0.0 - 1.0）
@@ -41,7 +42,14 @@ const Timer = {
         notificationSound.play().catch(() => {
             alert("音效預載失敗，但可以在結束時播放");
         });
-
+        
+        // 檢查並載入目標播放清單
+        const playlistId = "PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP";
+        if (currentPlaylist !== playlistId) {
+            player.loadPlaylist({ list: playlistId });
+            currentPlaylist = playlistId; // 更新當前播放清單
+        }
+        
         // 移除閃現效果
         document.getElementById("timer-display-section").classList.remove("flash");
 
