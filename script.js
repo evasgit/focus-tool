@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.3"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.4"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -114,11 +114,12 @@ const Timer = {
     },
 
     endBreak() {
-        notificationSound.play().catch(() => {
-            alert("音效播放失敗，可能受到瀏覽器限制");
-        });
         UI.resetBackground();
         UI.toggleTodoList(false);
+        notificationSound.play().catch(() => {
+            alert("休息結束音效播放失敗，可能受到瀏覽器限制");
+        });
+        History.updateHistoryDisplay(); // 更新歷史清單
     },
 
     updateGoal() {
