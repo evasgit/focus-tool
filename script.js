@@ -26,6 +26,12 @@ function onYouTubeIframeAPIReady() {
 // 計時器管理
 const Timer = {
     start() {
+        // 確保音效在首次互動時被允許
+        notificationSound.load();
+        notificationSound.play().catch(() => {
+            alert("音效預載失敗，但可以在結束時播放");
+        });
+        
         this.resetElapsedSinceLastBreak();
         this.initializeCountdown(TIMER_SETTINGS.initialTime, this.updateTimerDisplay, this.end);
         UI.toggleTodoList(false);
@@ -72,7 +78,9 @@ const Timer = {
     end() {
         History.recordGoal(state.lastGoal, TIMER_SETTINGS.initialTime);
         player.mute();
-        notificationSound.play(); // 播放音效
+        notificationSound.play().catch(() => {
+            alert("音效播放失敗，可能受到瀏覽器限制");
+        });
         UI.flashTimerDisplay();
     },
 
