@@ -4,8 +4,8 @@ let player;
 let currentPlaylist = "";
 
 const TIMER_SETTINGS = {
-    initialTime: 1200, // 20 分鐘 (1200 秒)
-    breakTime: 600 // 10 分鐘 (600 秒)
+    initialTime: 12, // 20 分鐘 (1200 秒)
+    breakTime: 6 // 10 分鐘 (600 秒)
 };
 
 const state = {
