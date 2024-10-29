@@ -176,8 +176,16 @@ button.pause:hover {
 }
 
 @keyframes flashAnimation {
-    0% { background-color: #f5deb3; }
-    50% { background-color: #ffffff; }
-    100% { background-color: #f5deb3; }
+    0% { 
+        background-color: #f5deb3; /* 米色 */
+        color: #e74c3c; /* 紅色文字 */
+    }
+    50% { 
+        background-color: #e74c3c; /* 鮮紅色背景 */
+        color: #ffffff; /* 白色文字 */
+    }
+    100% { 
+        background-color: #f5deb3; /* 米色 */
+        color: #e74c3c; /* 紅色文字 */
+    }
 }
-
