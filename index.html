@@ -26,9 +26,8 @@
             <input type="text" id="goalText" placeholder="輸入您的目標">
             <div id="button-group">
                 <input type="number" id="customTime" placeholder="輸入分鐘數" min="1" value="20"> <!-- 新增時間輸入框 -->
-                <button onclick="Timer.startTimer()" class="primary">開始</button>
-                <!-- <button onclick="pauseTimer()" class="pause">暫停計時</button> -->
-                <button onclick="Timer.startBreak()" id="breakButton">休息10分鐘</button>
+                <button onclick="startTimer()" class="primary">開始</button>
+                <button onclick="startBreak()" id="breakButton">休息10分鐘</button>
             </div>
         </section>
         <section id="history">
