@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.14"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.15"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -89,6 +89,11 @@ const Timer = {
     },
     
     startBreak() {
+        // 紀錄當前倒數目標的進度
+        if (state.lastGoal && state.remainingTime > 0) {
+            History.recordGoal(state.lastGoal, TIMER_SETTINGS.initialTime - state.remainingTime);
+        }
+        
         player.loadVideoById("NobJD8The0Q");
         player.unMute();
         currentPlaylist = ""; // 清空播放清單
