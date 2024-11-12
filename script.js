@@ -173,6 +173,12 @@ const History = {
     updateHistoryDisplay() {
         const historyList = document.getElementById("goalHistory");
         historyList.innerHTML = "";
+    
+        // 強制 DOM 重繪：暫時隱藏並顯示列表
+        historyList.style.display = 'none';
+        historyList.offsetHeight; // 觸發重繪
+        historyList.style.display = '';
+    
         for (const [goal, data] of Object.entries(state.goalHistory)) {
             const li = document.createElement("li");
             li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${data.count}，累計時間：${Math.floor(data.totalTime / 60)} 分鐘 ${data.totalTime % 60} 秒`;
