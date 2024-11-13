@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.18"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.1.0"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -34,73 +34,96 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', { events: { 'onReady': () => {} } });
 }
 
-// 計時器管理
 const Timer = {
     start() {
+        // 若已在計時中，先將已執行時間加入歷史紀錄
+        if (countdown) {
+            this.recordCurrentProgressAsComplete();
+            clearInterval(countdown); // 清除現有計時器
+            clearInterval(elapsedInterval); // 清除累積時間計時器
+        }
+
         UI.toggleTodoList(false);
-    
-        // 確保音效在首次互動時被允許
-        notificationSound.load();
-        notificationSound.play().catch(() => {
-            alert("音效預載失敗，但可以在結束時播放");
-        });
-    
-        // 檢查並載入目標播放清單
-        const playlistId = "PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP";
-        if (currentPlaylist !== playlistId) {
-            player.loadPlaylist({ list: playlistId });
-            currentPlaylist = playlistId; // 更新當前播放清單
-        }
-    
-        // 移除閃現效果
-        document.getElementById("timer-display-section").classList.remove("flash");
-    
-        // 讀取用戶自定義的分鐘數，若無輸入則使用預設值
-        const customMinutes = parseInt(document.getElementById("customTime").value);
-        const initialTime = !isNaN(customMinutes) ? customMinutes * 60 : TIMER_SETTINGS.initialTime;
-        state.remainingTime = initialTime; // 將計時器的初始時間設定為用戶輸入或預設時間
-    
-        // 累加當前目標的執行時間到歷史紀錄
-        if (state.lastGoal && state.remainingTime < initialTime && state.remainingTime > 0) {
-            // 計算已執行的時間
-            const elapsedTime = initialTime - state.remainingTime;
-    
-            // 將已執行時間加入到歷史紀錄中
-            if (!state.goalHistory[state.lastGoal]) {
-                state.goalHistory[state.lastGoal] = { count: 0, totalTime: 0 };
-            }
-            state.goalHistory[state.lastGoal].count += 1;
-            state.goalHistory[state.lastGoal].totalTime += elapsedTime;
-    
-            // 更新歷史清單顯示
-            History.updateHistoryDisplay();
-        }
-    
+        this.prepareSound();
+
+        // 設置播放清單
+        this.loadPlaylist("PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP");
+
+        // 設置初始時間
+        const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
+        state.remainingTime = initialTime;
+
+        // 更新歷史紀錄
+        this.recordElapsedTime(initialTime);
+
+        // 啟動倒數計時
         this.resetElapsedSinceLastBreak();
         this.initializeCountdown(initialTime, this.updateTimerDisplay, this.end);
         player.unMute();
         this.updateGoal();
     },
     
+    recordCurrentProgressAsComplete() {
+        // 若有正在進行的計時器，將其累積的時間記錄至歷史紀錄
+        const elapsedTime = TIMER_SETTINGS.initialTime - state.remainingTime;
+        if (state.lastGoal && elapsedTime > 0) {
+            History.recordGoal(state.lastGoal, elapsedTime);
+            History.updateHistoryDisplay();
+        }
+    },
+
     pause() {
+        if (!countdown) return;
         player.mute();
         clearInterval(countdown);
         clearInterval(elapsedInterval);
     },
-    
+
     startBreak() {
-        // 紀錄當前倒數目標的進度
-        if (state.lastGoal && state.remainingTime > 0) {
-            History.recordGoal(state.lastGoal, TIMER_SETTINGS.initialTime - state.remainingTime);
-        }
-        
-        player.loadVideoById("NobJD8The0Q");
-        player.unMute();
-        currentPlaylist = ""; // 清空播放清單
+        this.recordGoalProgress();
+        this.loadVideo("NobJD8The0Q");
+        currentPlaylist = "";
         state.remainingTime = TIMER_SETTINGS.breakTime;
+        
         UI.toggleTodoList(true);
         UI.updateBackground("break");
         this.initializeCountdown(TIMER_SETTINGS.breakTime, this.updateTimerDisplay, this.endBreak);
+    },
+    
+    prepareSound() {
+        notificationSound.load();
+        notificationSound.play().catch(() => alert("音效預載失敗，但可以在結束時播放"));
+    },
+
+    loadPlaylist(playlistId) {
+        if (currentPlaylist !== playlistId) {
+            player.loadPlaylist({ list: playlistId });
+            currentPlaylist = playlistId;
+        }
+    },
+
+    loadVideo(videoId) {
+        player.loadVideoById(videoId);
+        player.unMute();
+    },
+
+    getCustomTime() {
+        const customMinutes = parseInt(document.getElementById("customTime").value);
+        return !isNaN(customMinutes) ? customMinutes * 60 : null;
+    },
+
+    recordElapsedTime(initialTime) {
+        if (state.lastGoal && state.remainingTime < initialTime && state.remainingTime > 0) {
+            const elapsedTime = initialTime - state.remainingTime;
+            History.recordGoal(state.lastGoal, elapsedTime);
+            History.updateHistoryDisplay();
+        }
+    },
+
+    recordGoalProgress() {
+        if (state.lastGoal && state.remainingTime > 0) {
+            History.recordGoal(state.lastGoal, TIMER_SETTINGS.initialTime - state.remainingTime);
+        }
     },
     
     resetElapsedSinceLastBreak() {
@@ -126,18 +149,14 @@ const Timer = {
     end() {
         History.recordGoal(state.lastGoal, TIMER_SETTINGS.initialTime);
         player.mute();
-        notificationSound.play().catch(() => {
-            alert("音效播放失敗，可能受到瀏覽器限制");
-        });
+        notificationSound.play().catch(() => alert("音效播放失敗，可能受到瀏覽器限制"));
         UI.flashTimerDisplay();
     },
 
     endBreak() {
         UI.resetBackground();
-        notificationSound.play().catch(() => {
-            alert("休息結束音效播放失敗，可能受到瀏覽器限制");
-        });
-        History.updateHistoryDisplay(); // 更新歷史清單
+        notificationSound.play().catch(() => alert("休息結束音效播放失敗，可能受到瀏覽器限制"));
+        History.updateHistoryDisplay();
     },
 
     updateGoal() {
@@ -156,6 +175,7 @@ const Timer = {
         document.getElementById("timerDisplay").textContent = `剩餘時間：${minutes} 分 ${seconds.toString().padStart(2, '0')} 秒`;
     }
 };
+
 
 // 更新目標的記錄，包括使用次數、累計時間和儲存時間
 const History = {
