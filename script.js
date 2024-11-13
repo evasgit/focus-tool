@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.4.3"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.4.4"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -60,6 +60,9 @@ const Timer = {
         this.initializeCountdown(initialTime, this.updateTimerDisplay, this.end);
         player.unMute();
         this.updateGoal();
+
+        // 關閉 flash 效果
+        UI.removeFlashEffect();
     },
     
     recordCurrentProgressAsComplete(initialTime) {
@@ -235,6 +238,11 @@ const UI = {
     flashTimerDisplay() {
         const timerDisplaySection = document.getElementById("timer-display-section");
         timerDisplaySection.classList.add("flash");
+    },
+
+    removeFlashEffect() {
+        const timerDisplaySection = document.getElementById("timer-display-section");
+        timerDisplaySection.classList.remove("flash");
     },
 
     resetBackground() {
