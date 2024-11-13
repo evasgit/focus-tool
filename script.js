@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.4.1"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.4.2"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -264,7 +264,30 @@ let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
 
-
+// 筆記區
+// 將 TinyMCE 初始化設定放入函數中
+function initializeTinyMCE() {
+    tinymce.init({
+        selector: '#noteArea',
+        plugins: [
+            'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+            'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+            'importword', 'exportword', 'exportpdf'
+        ],
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+            { value: 'First.Name', title: 'First Name' },
+            { value: 'Email', title: 'Email' }
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+        exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
+        exportword_converter_options: { 'document': { 'size': 'Letter' } },
+        importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline', 'defaults': 'inline' } }
+    });
+}
+// 可收合筆記區的顯示/隱藏控制
 function toggleNote() {
     const noteArea = document.getElementById("noteArea");
     const noteToggle = document.getElementById("noteToggle");
@@ -272,10 +295,12 @@ function toggleNote() {
     if (noteArea.style.display === "none") {
         noteArea.style.display = "block";
         noteToggle.textContent = "隱藏筆記區";
-        CKEDITOR.replace('noteArea');
+        initializeTinyMCE();  // 初始化 TinyMCE 編輯器
     } else {
         noteArea.style.display = "none";
         noteToggle.textContent = "顯示筆記區";
-        CKEDITOR.instances.noteArea.destroy(); // 清除 CKEditor
+        if (tinymce.get("noteArea")) {
+            tinymce.get("noteArea").remove();  // 移除 TinyMCE 編輯器實例
+        }
     }
 }
