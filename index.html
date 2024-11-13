@@ -65,7 +65,17 @@
                 importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
               });
             </script>
-            <textarea>
+            <script>
+              function toggleNote() {
+                const noteArea = document.querySelector("textarea");
+                if (noteArea.style.display === "none" || noteArea.style.display === "") {
+                  noteArea.style.display = "block"; // 顯示 textarea
+                } else {
+                  noteArea.style.display = "none";  // 隱藏 textarea
+                }
+              }
+            </script>
+            <textarea style="display:none;">
               ...
             </textarea>
         </section>
