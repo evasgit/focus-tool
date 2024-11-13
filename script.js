@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.1.0"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.1.1"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -65,7 +65,7 @@ const Timer = {
     
     recordCurrentProgressAsComplete() {
         // 若有正在進行的計時器，將其累積的時間記錄至歷史紀錄
-        const elapsedTime = TIMER_SETTINGS.initialTime - state.remainingTime;
+        const elapsedTime = TIMER_SETTINGS.initialTime - state.remainingTime; // 已經過的時間
         if (state.lastGoal && elapsedTime > 0) {
             History.recordGoal(state.lastGoal, elapsedTime);
             History.updateHistoryDisplay();
@@ -175,6 +175,7 @@ const Timer = {
         document.getElementById("timerDisplay").textContent = `剩餘時間：${minutes} 分 ${seconds.toString().padStart(2, '0')} 秒`;
     }
 };
+
 
 
 // 更新目標的記錄，包括使用次數、累計時間和儲存時間
