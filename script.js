@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.16"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.17"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -158,30 +158,44 @@ const Timer = {
 };
 
 // 歷史記錄管理
+// 更新目標的記錄，包括使用次數、累計時間和儲存時間
 const History = {
     recordGoal(goal, time) {
         if (!goal || state.hasRecordedHistory) return;
+        
+        // 若沒有該目標的歷史紀錄，則初始化
         if (!state.goalHistory[goal]) {
-            state.goalHistory[goal] = { count: 0, totalTime: 0 };
+            state.goalHistory[goal] = { count: 0, totalTime: 0, lastUpdated: null };
         }
+
+        // 更新使用次數和累計時間
         state.goalHistory[goal].count++;
         state.goalHistory[goal].totalTime += time;
+
+        // 設置更新日期時間
+        state.goalHistory[goal].lastUpdated = new Date().toLocaleString(); // 使用本地時間格式
+
         state.hasRecordedHistory = true;
-        this.updateHistoryDisplay();
+        this.updateHistoryDisplay(); // 更新歷史顯示
     },
 
     updateHistoryDisplay() {
         const historyList = document.getElementById("goalHistory");
         historyList.innerHTML = "";
-    
+
         // 強制 DOM 重繪：暫時隱藏並顯示列表
         historyList.style.display = 'none';
         historyList.offsetHeight; // 觸發重繪
         historyList.style.display = '';
-    
+
+        // 顯示每個目標的詳細資訊
         for (const [goal, data] of Object.entries(state.goalHistory)) {
+            const hours = Math.floor(data.totalTime / 3600);
+            const minutes = Math.floor((data.totalTime % 3600) / 60);
+            const seconds = data.totalTime % 60;
+
             const li = document.createElement("li");
-            li.textContent = `🐣 🐣 🐣 ${goal} - 使用次數：${data.count}，累計時間：${Math.floor(data.totalTime / 60)} 分鐘 ${data.totalTime % 60} 秒`;
+            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，累計 ${hours} 時 ${minutes} 分 ${seconds} 秒，最後更新：${data.lastUpdated}`;
             li.onclick = () => UI.populateGoalInput(goal);
             historyList.prepend(li);
         }
