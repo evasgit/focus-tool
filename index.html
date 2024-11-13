@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <!-- Place the first <script> tag in your HTML's <head> -->
     <script src="https://cdn.tiny.cloud/1/ho1n04sdgllswsqa9d29ibed0ik3rjekeku61s4zhbnugwvg/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +12,7 @@
     <div id="version">v1.0.0</div>
     <main>
         <section id="timer-display-section">
-            <div id="timerDisplay">剩餘時間：20 分 0 秒</div> <!-- 更新初始顯示格式 -->
+            <div id="timerDisplay">剩餘時間：20 分 0 秒</div>
             <div id="noBreakTime">距離上次休息：0 秒</div>
         </section>
         <section id="todoList" style="display:none;">
@@ -39,41 +38,33 @@
                 <button onclick="toggleNote()" id="noteToggle">顯示筆記區</button>
             </div>
             <!-- 新增筆記區 -->
-            <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
             <script>
-              tinymce.init({
-                selector: 'textarea',
-                plugins: [
-                  // Core editing features
-                  'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                  // Your account includes a free trial of TinyMCE premium features
-                  // Try the most popular premium features until Nov 27, 2024:
-                  // 'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-                  // Early access to document converters
-                  // 'importword', 'exportword', 'exportpdf'
-                ],
-                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                tinycomments_mode: 'embedded',
-                tinycomments_author: 'Author name',
-                mergetags_list: [
-                  { value: 'First.Name', title: 'First Name' },
-                  { value: 'Email', title: 'Email' },
-                ],
-                ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-                exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
-                exportword_converter_options: { 'document': { 'size': 'Letter' } },
-                importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
-              });
-            </script>
-            <script>
-              function toggleNote() {
-                const noteArea = document.querySelector("textarea");
-                if (noteArea.style.display === "none" || noteArea.style.display === "") {
-                  noteArea.style.display = "block"; // 顯示 textarea
-                } else {
-                  noteArea.style.display = "none";  // 隱藏 textarea
+                let isTinyMCELoaded = false;
+
+                function toggleNote() {
+                    const noteArea = document.querySelector("textarea");
+                    if (noteArea.style.display === "none" || noteArea.style.display === "") {
+                        noteArea.style.display = "block"; // 顯示 textarea
+                        if (!isTinyMCELoaded) {
+                            tinymce.init({
+                                selector: 'textarea',
+                                plugins: [
+                                    'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
+                                ],
+                                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | numlist bullist checklist | removeformat',
+                                tinycomments_mode: 'embedded',
+                                tinycomments_author: 'Author name'
+                            });
+                            isTinyMCELoaded = true;
+                        }
+                    } else {
+                        noteArea.style.display = "none"; // 隱藏 textarea
+                        if (isTinyMCELoaded) {
+                            tinymce.remove(); // 移除 TinyMCE 編輯器
+                            isTinyMCELoaded = false;
+                        }
+                    }
                 }
-              }
             </script>
             <textarea style="display:none;">
               ...
