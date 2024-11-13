@@ -6,6 +6,8 @@
     <title>專注目標計時器</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<!-- CDN 引入 TinyMCE -->
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
 <body>
     <div id="version">v1.0.0</div>
     <main>
@@ -37,7 +39,7 @@
             <!-- 新增筆記區 -->
             <div id="note-section">
                 <button onclick="toggleNote()" id="noteToggle">顯示筆記區</button>
-                <textarea id="noteArea" placeholder="在此輸入您的筆記..." style="display: none;"></textarea>
+                <textarea id="noteArea" style="display: none;"></textarea>
             </div>
         </section>
         <section id="history">
