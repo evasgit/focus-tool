@@ -23,9 +23,14 @@
             </ul>
         </section>
         <section id="goal-section">
-            <input type="text" id="goalText" placeholder="輸入您的目標">
+            <select id="goalText">
+                <option value="" disabled selected>選擇或輸入您的目標</option>
+                <option value="早會">早會</option>
+                <option value="午餐吃完要清潔丟廚餘">午餐吃完要清潔丟廚餘</option>
+            </select>
+            <input type="text" id="customGoalText" placeholder="或輸入您的目標">
             <div id="button-group">
-                <input type="number" id="customTime" placeholder="輸入分鐘數" min="1" value="20"> <!-- 新增時間輸入框 -->
+                <input type="number" id="customTime" placeholder="輸入分鐘數" min="1" value="20">
                 <button onclick="startTimer()" class="primary">開始</button>
                 <button onclick="pauseTimer()" class="pause">暫停計時</button>
                 <button onclick="startBreak()" id="breakButton">休息10分鐘</button>
