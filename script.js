@@ -179,6 +179,31 @@ const History = {
         this.updateHistoryDisplay(); // 更新歷史顯示
     },
 
+    // 更新目標的記錄，包括使用次數、累計時間和儲存時間
+const History = {
+    recordGoal(goal, time) {
+        if (!goal || state.hasRecordedHistory) return;
+        
+        // 若沒有該目標的歷史紀錄，則初始化
+        if (!state.goalHistory[goal]) {
+            state.goalHistory[goal] = { count: 0, totalTime: 0, lastUpdated: null };
+        }
+
+        // 更新使用次數和累計時間
+        state.goalHistory[goal].count++;
+        state.goalHistory[goal].totalTime += time;
+
+        // 設置更新日期時間（格式為 10:41 PM (11/13)）
+        const now = new Date();
+        const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+        const formattedTime = now.toLocaleTimeString('en-US', options);
+        const formattedDate = `${now.getMonth() + 1}/${now.getDate()}`;
+        state.goalHistory[goal].lastUpdated = `${formattedTime} (${formattedDate})`;
+
+        state.hasRecordedHistory = true;
+        this.updateHistoryDisplay(); // 更新歷史顯示
+    },
+
     updateHistoryDisplay() {
         const historyList = document.getElementById("goalHistory");
         historyList.innerHTML = "";
@@ -194,12 +219,20 @@ const History = {
             const minutes = Math.floor((data.totalTime % 3600) / 60);
             const seconds = data.totalTime % 60;
 
+            // 構建時間顯示字串，僅顯示非零的部分
+            let timeDisplay = "累計 ";
+            if (hours > 0) timeDisplay += `${hours} 時 `;
+            if (minutes > 0) timeDisplay += `${minutes} 分 `;
+            if (seconds > 0) timeDisplay += `${seconds} 秒`;
+
             const li = document.createElement("li");
-            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，累計 ${hours} 時 ${minutes} 分 ${seconds} 秒，最後更新：${data.lastUpdated}`;
+            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，${timeDisplay.trim()}，最後更新：${data.lastUpdated}`;
             li.onclick = () => UI.populateGoalInput(goal);
             historyList.prepend(li);
         }
     }
+};
+
 };
 
 // UI 管理
