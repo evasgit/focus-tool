@@ -23,12 +23,11 @@
             </ul>
         </section>
         <section id="goal-section">
-            <select id="goalText">
-                <option value="" disabled selected>選擇或輸入您的目標</option>
-                <option value="早會">早會</option>
-                <option value="午餐吃完要清潔丟廚餘">午餐吃完要清潔丟廚餘</option>
-            </select>
-            <input type="text" id="customGoalText" placeholder="或輸入您的目標">
+            <input type="text" id="goalText" list="goalOptions" placeholder="輸入您的目標或選擇">
+            <datalist id="goalOptions">
+                <option value="早會"></option>
+                <option value="午餐吃完要清潔丟廚餘"></option>
+            </datalist>
             <div id="button-group">
                 <input type="number" id="customTime" placeholder="輸入分鐘數" min="1" value="20">
                 <button onclick="startTimer()" class="primary">開始</button>
