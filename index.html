@@ -35,8 +35,12 @@
                 <button onclick="startTimer()" class="primary">開始</button>
                 <button onclick="pauseTimer()" class="pause">暫停計時</button>
                 <button onclick="startBreak()" id="breakButton">休息10分鐘</button>
-                <button id="noteToggle" onclick="toggleNote()">顯示筆記區</button>
             </div>
+        </section>
+        <section id="history">
+            <ul id="goalHistory"></ul>
+        </section>
+        <section>
             <!-- 新增筆記區 -->
             <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
             <script>
@@ -64,38 +68,10 @@
                 importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
                 });
                 let isTinyMCELoaded = true;
-                
-                function toggleNote() {
-                const noteArea = document.querySelector("textarea");
-                if (noteArea.style.display === "none" || noteArea.style.display === "") {
-                    noteArea.style.display = "block"; // 顯示 textarea
-                    if (!isTinyMCELoaded) {
-                        tinymce.init({
-                            selector: 'textarea',
-                            plugins: [
-                                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
-                            ],
-                            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | numlist bullist checklist | removeformat',
-                            tinycomments_mode: 'embedded',
-                            tinycomments_author: 'Author name'
-                        });
-                        isTinyMCELoaded = true;
-                    }
-                } else {
-                    noteArea.style.display = "none"; // 隱藏 textarea
-                    if (isTinyMCELoaded) {
-                        tinymce.remove(); // 移除 TinyMCE 編輯器
-                        isTinyMCELoaded = false;
-                    }
-                }
-                }
             </script>
             <textarea>
-              Welcome to TinyMCE!
+              ...
             </textarea>
-        </section>
-        <section id="history">
-            <ul id="goalHistory"></ul>
         </section>
         <!-- YouTube 播放清單嵌入 -->
         <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
