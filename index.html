@@ -34,6 +34,11 @@
                 <button onclick="pauseTimer()" class="pause">暫停計時</button>
                 <button onclick="startBreak()" id="breakButton">休息10分鐘</button>
             </div>
+            <!-- 新增筆記區 -->
+            <div id="note-section">
+                <button onclick="toggleNote()" id="noteToggle">顯示筆記區</button>
+                <textarea id="noteArea" placeholder="在此輸入您的筆記..." style="display: none;"></textarea>
+            </div>
         </section>
         <section id="history">
             <ul id="goalHistory"></ul>
