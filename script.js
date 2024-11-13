@@ -263,3 +263,17 @@ document.getElementById("breakButton").onclick = () => Timer.startBreak();
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
+
+
+function toggleNote() {
+    const noteArea = document.getElementById("noteArea");
+    const noteToggle = document.getElementById("noteToggle");
+
+    if (noteArea.style.display === "none") {
+        noteArea.style.display = "block";
+        noteToggle.textContent = "隱藏筆記區";
+    } else {
+        noteArea.style.display = "none";
+        noteToggle.textContent = "顯示筆記區";
+    }
+}
