@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.3.0"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.4.0"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -272,8 +272,10 @@ function toggleNote() {
     if (noteArea.style.display === "none") {
         noteArea.style.display = "block";
         noteToggle.textContent = "隱藏筆記區";
+        CKEDITOR.replace('noteArea');
     } else {
         noteArea.style.display = "none";
         noteToggle.textContent = "顯示筆記區";
+        CKEDITOR.instances.noteArea.destroy(); // 清除 CKEditor
     }
 }
