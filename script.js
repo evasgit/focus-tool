@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.1.1"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.1.2"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -36,9 +36,12 @@ function onYouTubeIframeAPIReady() {
 
 const Timer = {
     start() {
+        // 設置初始時間（讀取用戶自定義的時間）
+        const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
+
         // 若已在計時中，先將已執行時間加入歷史紀錄
         if (countdown) {
-            this.recordCurrentProgressAsComplete();
+            this.recordCurrentProgressAsComplete(initialTime); // 使用用戶自定義時間計算已經過時間
             clearInterval(countdown); // 清除現有計時器
             clearInterval(elapsedInterval); // 清除累積時間計時器
         }
@@ -49,12 +52,8 @@ const Timer = {
         // 設置播放清單
         this.loadPlaylist("PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP");
 
-        // 設置初始時間
-        const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
+        // 設置剩餘時間為初始時間
         state.remainingTime = initialTime;
-
-        // 更新歷史紀錄
-        this.recordElapsedTime(initialTime);
 
         // 啟動倒數計時
         this.resetElapsedSinceLastBreak();
@@ -63,9 +62,9 @@ const Timer = {
         this.updateGoal();
     },
     
-    recordCurrentProgressAsComplete() {
+    recordCurrentProgressAsComplete(initialTime) {
         // 若有正在進行的計時器，將其累積的時間記錄至歷史紀錄
-        const elapsedTime = TIMER_SETTINGS.initialTime - state.remainingTime; // 已經過的時間
+        const elapsedTime = initialTime - state.remainingTime; // 已經過的時間，使用自定義的初始時間計算
         if (state.lastGoal && elapsedTime > 0) {
             History.recordGoal(state.lastGoal, elapsedTime);
             History.updateHistoryDisplay();
@@ -112,20 +111,6 @@ const Timer = {
         return !isNaN(customMinutes) ? customMinutes * 60 : null;
     },
 
-    recordElapsedTime(initialTime) {
-        if (state.lastGoal && state.remainingTime < initialTime && state.remainingTime > 0) {
-            const elapsedTime = initialTime - state.remainingTime;
-            History.recordGoal(state.lastGoal, elapsedTime);
-            History.updateHistoryDisplay();
-        }
-    },
-
-    recordGoalProgress() {
-        if (state.lastGoal && state.remainingTime > 0) {
-            History.recordGoal(state.lastGoal, TIMER_SETTINGS.initialTime - state.remainingTime);
-        }
-    },
-    
     resetElapsedSinceLastBreak() {
         clearInterval(elapsedInterval);
         state.elapsedSinceLastBreak = 0;
