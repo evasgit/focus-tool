@@ -36,8 +36,6 @@
                 <button onclick="startBreak()" id="breakButton">休息10分鐘</button>
             </div>
             <!-- 新增筆記區 -->
-            <!-- CDN 引入 TinyMCE -->
-            <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
             <div id="note-section">
                 <button onclick="toggleNote()" id="noteToggle">顯示筆記區</button>
                 <textarea id="noteArea" style="display: none;"></textarea>
@@ -49,6 +47,8 @@
         <!-- YouTube 播放清單嵌入 -->
         <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </main>
+    <!-- CDN 引入 TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
