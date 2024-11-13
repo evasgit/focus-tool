@@ -204,7 +204,7 @@ const History = {
             if (seconds > 0) timeDisplay += `${seconds} 秒`;
 
             const li = document.createElement("li");
-            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，${timeDisplay.trim()}，最後更新：${data.lastUpdated}`;
+            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，${timeDisplay.trim()}，${data.lastUpdated} 更新`;
             li.onclick = () => UI.populateGoalInput(goal);
             historyList.prepend(li);
         }
