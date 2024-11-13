@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.0.18"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.0.17"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -194,20 +194,12 @@ const History = {
             const minutes = Math.floor((data.totalTime % 3600) / 60);
             const seconds = data.totalTime % 60;
 
-            // 構建時間顯示字串，僅顯示非零的部分
-            let timeDisplay = "累計 ";
-            if (hours > 0) timeDisplay += `${hours} 時 `;
-            if (minutes > 0) timeDisplay += `${minutes} 分 `;
-            if (seconds > 0) timeDisplay += `${seconds} 秒`;
-
             const li = document.createElement("li");
-            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，${timeDisplay.trim()}，最後更新：${data.lastUpdated}`;
+            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，累計 ${hours} 時 ${minutes} 分 ${seconds} 秒，最後更新：${data.lastUpdated}`;
             li.onclick = () => UI.populateGoalInput(goal);
             historyList.prepend(li);
         }
     }
-};
-
 };
 
 // UI 管理
