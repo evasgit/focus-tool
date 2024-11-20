@@ -207,3 +207,15 @@ button.pause:hover {
         color: #e74c3c; /* 紅色文字 */
     }
 }
+
+/* 目標文字清空 */
+button.delete {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+}
+button.delete:hover {
+    color: #333;
+}
