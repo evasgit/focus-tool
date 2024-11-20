@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.6.0"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.6.1"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -18,6 +18,7 @@ notificationSound.volume = 1.0; // 設置音量為最大（0.0 - 1.0）
 
 const TIMER_SETTINGS = {
     initialTime: 1200, // 20 分鐘 (1200 秒)
+    initialTimeMin: 20, // 20 分鐘 (1200 秒)
     breakTime: 600 // 10 分鐘 (600 秒)
 };
 
@@ -32,7 +33,7 @@ const state = {
 // 目標文字清空
 function clearCustomTime() {
     document.getElementById('goalText').value = '';
-    document.getElementById('customTime').value = TIMER_SETTINGS.initialTime;
+    document.getElementById('customTime').value = TIMER_SETTINGS.initialTimeMin;
 }
 
 // YouTube 播放器初始化
