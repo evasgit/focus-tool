@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.5.4"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.6.0"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -28,6 +28,12 @@ const state = {
     lastGoal: "",
     hasRecordedHistory: false,
 };
+
+// 目標文字清空
+function clearCustomTime() {
+    document.getElementById('goalText').value = '';
+    document.getElementById('customTime').value = TIMER_SETTINGS.initialTime;
+}
 
 // YouTube 播放器初始化
 function onYouTubeIframeAPIReady() {
