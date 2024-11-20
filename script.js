@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.4.4"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.5.4"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -272,3 +272,19 @@ let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
 
+// 預設項目時間
+document.getElementById('goalText').addEventListener('input', function () {
+    const goalText = this.value;
+    const dataList = document.getElementById('goalOptions');
+    const options = dataList.options;
+
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === goalText) {
+            const time = options[i].getAttribute('data-time');
+            if (time) {
+                document.getElementById('customTime').value = time;
+            }
+            break;
+        }
+    }
+});
