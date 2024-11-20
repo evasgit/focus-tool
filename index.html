@@ -34,8 +34,10 @@
                 <option value="開今天(mention)、查看通知、查看例行、整理項目" data-time="20"></option>
             </datalist>
             <div id="button-group">
-                <input type="number" id="customTime" placeholder="輸入分鐘數" min="1" value="20">
-                <button onclick="clearCustomTime()" class="delete" title="清空時間">✖️</button>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="number" id="customTime" placeholder="輸入分鐘數" min="1" value="20">
+                    <button onclick="clearCustomTime()" class="delete" title="清空時間">✖️</button>
+                </div>
                 <button onclick="startTimer()" class="primary">開始</button>
                 <button onclick="pauseTimer()" class="pause">暫停計時</button>
                 <button onclick="startBreak()" id="breakButton">休息10分鐘</button>
