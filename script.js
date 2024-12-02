@@ -110,7 +110,7 @@ const Timer = {
         document.getElementById('customTime').value = breakTime;
         // 顯示操作訊息（可選）
         console.log(`已設定目標：${breakValue}，時間：${breakTime} 分鐘`);
-        UI.toggleTodoList(true);
+        // UI.toggleTodoList(true);
         UI.updateBackground("break");
         this.initializeCountdown(breakTime * 60, this.updateTimerDisplay, this.endBreak);
     },
