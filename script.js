@@ -112,7 +112,7 @@ const Timer = {
         console.log(`已設定目標：${breakValue}，時間：${breakTime} 分鐘`);
         UI.toggleTodoList(true);
         UI.updateBackground("break");
-        this.initializeCountdown(breakTime, this.updateTimerDisplay, this.endBreak);
+        this.initializeCountdown(breakTime * 60, this.updateTimerDisplay, this.endBreak);
     },
     
     prepareSound() {
