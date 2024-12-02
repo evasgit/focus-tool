@@ -3,7 +3,8 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.6.6-休息直用"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.6.7-休息直用"; // 或從其他來源動態獲取版本號
+
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -43,7 +44,7 @@ function onYouTubeIframeAPIReady() {
 
 const Timer = {
     start() {
-        // UI.updateBackground("normal");
+        UI.updateBackground("normal");
         // 設置初始時間（讀取用戶自定義的時間）
         const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
 
