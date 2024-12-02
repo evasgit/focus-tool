@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.6.3-休息直用"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.6.4-休息直用"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -89,7 +89,14 @@ const Timer = {
     },
 
     startBreak() {
-        this.recordGoalProgress();
+        // 設置初始時間（讀取用戶自定義的時間）
+        const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
+        // 若已在計時中，先將已執行時間加入歷史紀錄
+        if (countdown) {
+            this.recordCurrentProgressAsComplete(initialTime); // 使用用戶自定義時間計算已經過時間
+            clearInterval(countdown); // 清除現有計時器
+            clearInterval(elapsedInterval); // 清除累積時間計時器
+        }
         this.loadVideo("NobJD8The0Q");
         currentPlaylist = "";
         state.remainingTime = TIMER_SETTINGS.breakTime;
