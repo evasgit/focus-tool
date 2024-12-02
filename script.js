@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.6.1"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.6.2-休息直用"; // 或從其他來源動態獲取版本號
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
     if (versionElement) {
@@ -93,10 +93,19 @@ const Timer = {
         this.loadVideo("NobJD8The0Q");
         currentPlaylist = "";
         state.remainingTime = TIMER_SETTINGS.breakTime;
-        
+        // 取得 <option id="break">
+        const breakOption = document.querySelector('#goalOptions option#break');
+        // 取得相關屬性值
+        const breakValue = breakOption.value; // "休息：喝水、廁所、看訊息、紀錄進度"
+        const breakTime = parseInt(breakOption.dataset.time); // 10
+        // 更新目標輸入框和時間輸入框的值
+        document.getElementById('goalText').value = breakValue;
+        document.getElementById('customTime').value = breakTime;
+        // 顯示操作訊息（可選）
+        console.log(`已設定目標：${breakValue}，時間：${breakTime} 分鐘`);
         UI.toggleTodoList(true);
         UI.updateBackground("break");
-        this.initializeCountdown(TIMER_SETTINGS.breakTime, this.updateTimerDisplay, this.endBreak);
+        this.initializeCountdown(breakTime, this.updateTimerDisplay, this.endBreak);
     },
     
     prepareSound() {
