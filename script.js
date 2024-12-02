@@ -208,7 +208,7 @@ const History = {
         state.goalHistory[goal].count++;
         state.goalHistory[goal].totalTime += time;
         // 檢查 totalTime 是否超過 1 小時
-        if (state.goalHistory[goal].totalTime > 1) {
+        if (state.goalHistory[goal].totalTime > 1 * 60 * 60) {
             alert(`目標「${goal}」的總時間已超過 1 小時(${state.goalHistory[goal].totalTime / 60} 分鐘)！請確認是否要「找人討論」或「修正目標」`);
         }
         // 設置更新日期時間（格式為 10:41 PM (11/13)）
