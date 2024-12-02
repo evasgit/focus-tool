@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.7.0-一小警告"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.7.1-一小警告"; // 或從其他來源動態獲取版本號
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
@@ -91,6 +91,9 @@ const Timer = {
     },
 
     startBreak() {
+        UI.updateBackground("normal");
+        UI.removeFlashEffect();
+
         // 設置初始時間（讀取用戶自定義的時間）
         const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
         // 若已在計時中，先將已執行時間加入歷史紀錄
