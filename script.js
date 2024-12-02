@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.6.7-休息直用"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.7.0-一小警告"; // 或從其他來源動態獲取版本號
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
@@ -204,7 +204,10 @@ const History = {
         // 更新使用次數和累計時間
         state.goalHistory[goal].count++;
         state.goalHistory[goal].totalTime += time;
-
+        // 檢查 totalTime 是否超過 1 小時
+        if (state.goalHistory[goal].totalTime > 1) {
+            alert(`目標「${goal}」的總時間已超過 1 小時(${state.goalHistory[goal].totalTime / 60} 分鐘)！請確認是否要「找人討論」或「修正目標」`);
+        }
         // 設置更新日期時間（格式為 10:41 PM (11/13)）
         const now = new Date();
         const options = { hour: 'numeric', minute: 'numeric', hour12: true };
