@@ -47,7 +47,6 @@ h1 {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-
 /* 按鈕樣式 */
 #button-group {
     margin-top: 10px;
@@ -159,20 +158,20 @@ button.pause:hover {
     top: 10px;
     right: 10px;
     font-size: 0.8em;
-    color: #666; /* 灰色，讓它不過於顯眼 */
-    opacity: 0.7; /* 調低透明度，讓它不搶眼 */
+    color: #666;
+    opacity: 0.7;
 }
 
 #noteArea {
     width: 100%;
     height: 100px;
     margin-top: 10px;
-    display: none; /* 預設隱藏 */
+    display: none;
 }
 
 /* 背景顏色動畫樣式 */
 .background-normal {
-    background-color: #f5deb3; /* 米色 */
+    background-color: #f5deb3;
 }
 
 .background-alert {
@@ -195,16 +194,16 @@ button.pause:hover {
 
 @keyframes flashAnimation {
     0% { 
-        background-color: #f5deb3; /* 米色 */
-        color: #e74c3c; /* 紅色文字 */
+        background-color: #f5deb3;
+        color: #e74c3c;
     }
     50% { 
-        background-color: #e74c3c; /* 鮮紅色背景 */
-        color: #ffffff; /* 白色文字 */
+        background-color: #e74c3c;
+        color: #ffffff;
     }
     100% { 
-        background-color: #f5deb3; /* 米色 */
-        color: #e74c3c; /* 紅色文字 */
+        background-color: #f5deb3;
+        color: #e74c3c;
     }
 }
 
