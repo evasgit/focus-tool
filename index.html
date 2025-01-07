@@ -82,13 +82,13 @@
         </section>
         <!-- YouTube 播放清單嵌入 -->
         <div class="container">
-            <h1>YouTube Playlist Player</h1>
-            <div>
-                <label for="playlistId">Enter Playlist ID:</label>
-                <input type="text" id="playlistId" value="RDCLAK5uy_lGEOjy5U8xV41C8_LyqNnAZKOH6sGyutI" placeholder="Enter playlist ID">
-                <button onclick="updatePlaylist()">Load Playlist</button>
+            <h3>YouTube Playlist Player</h3>
+            <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <label for="playlistId">播放清單 ID：</label>
+                <input type="text" id="playlistId" value="RDCLAK5uy_lGEOjy5U8xV41C8_LyqNnAZKOH6sGyutI" placeholder="輸入播放清單 ID">
+                <button onclick="updatePlaylist()">載入播放清單</button>
             </div>
-            <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=RDCLAK5uy_lGEOjy5U8xV41C8_LyqNnAZKOH6sGyutI&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe id="player" width="100%" height="315" src="https://www.youtube.com/embed/videoseries?list=RDCLAK5uy_lGEOjy5U8xV41C8_LyqNnAZKOH6sGyutI&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </main>
     <script src="script.js"></script>
