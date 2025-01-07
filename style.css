@@ -218,3 +218,46 @@ button.delete {
 button.delete:hover {
     color: #333;
 }
+
+/* 修正播放清單區域樣式 */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* 增加輸入框與按鈕之間的間距 */
+    margin-bottom: 20px;
+}
+
+.container label {
+    font-size: 1em;
+    margin-right: 10px; /* 增加文字與輸入框的間距 */
+}
+
+#playlistId {
+    width: 300px; /* 設置固定寬度，確保輸入框不會過小 */
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: background-color 0.3s;
+    background-color: #007bff;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
