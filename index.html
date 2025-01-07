@@ -81,6 +81,11 @@
             </textarea>
         </section>
         <!-- YouTube 播放清單嵌入 -->
+        <h1>YouTube Playlist Player</h1>
+        <label for="playlistId">Enter Playlist ID:</label>
+        <input type="text" id="playlistId" placeholder="Enter playlist ID">
+        <button onclick="updatePlaylist()">Load Playlist</button>
+        <br><br>
         <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </main>
     <script src="script.js"></script>
