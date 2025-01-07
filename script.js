@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.8.3-自訂音樂"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.8.4-自訂音樂"; // 或從其他來源動態獲取版本號
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
@@ -324,4 +324,5 @@ function updatePlaylist() {
     const playlistId = document.getElementById("playlistId").value;
     const iframe = document.getElementById("player");
     iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&enablejsapi=1`;
+    const targetPlaylistUrl = iframe.src;
 }
