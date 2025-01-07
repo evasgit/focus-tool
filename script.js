@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-const targetPlaylistUrl = "https://www.youtube.com/embed/videoseries?list=PL3oW2tjiIxvQKSVAf1lS4dONUh76uQLEB&enablejsapi=1";
+const targetPlaylistUrl = "https://www.youtube.com/embed/videoseries?list=" + document.getElementById("playlistId") + "&enablejsapi=1";
 
 const notificationSound = new Audio("notification.mp3");
 notificationSound.volume = 1.0; // 設置音量為最大（0.0 - 1.0）
