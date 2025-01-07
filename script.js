@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.8.5-自訂音樂"; // 或從其他來源動態獲取版本號
+const versionNumber = "v1.8.6-自訂音樂"; // 或從其他來源動態獲取版本號
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
