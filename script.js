@@ -319,3 +319,9 @@ document.getElementById('goalText').addEventListener('input', function () {
         }
     }
 });
+
+function updatePlaylist() {
+    const playlistId = document.getElementById("playlistId").value;
+    const iframe = document.getElementById("player");
+    iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&enablejsapi=1`;
+}
