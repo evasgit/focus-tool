@@ -46,8 +46,8 @@ const Timer = {
     start20() {
         UI.updateBackground("normal");
         // 設置初始時間（讀取用戶自定義的時間）
-        const initialTime = 1200;
-        document.getElementById('customTime').value = initialTime;
+        document.getElementById('customTime').value = 20;
+        const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
         // 若已在計時中，先將已執行時間加入歷史紀錄
         if (countdown) {
             this.recordCurrentProgressAsComplete(initialTime); // 使用用戶自定義時間計算已經過時間
@@ -73,6 +73,7 @@ const Timer = {
         // 關閉 flash 效果
         UI.removeFlashEffect();
     },
+
     start() {
         UI.updateBackground("normal");
         // 設置初始時間（讀取用戶自定義的時間）
