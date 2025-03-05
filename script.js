@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.9.1-20minbtn";
+const versionNumber = "v1.9.2-20minbtn";
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
@@ -46,7 +46,7 @@ const Timer = {
     start20() {
         UI.updateBackground("normal");
         // 設置初始時間（讀取用戶自定義的時間）
-        const initialTime = 20;
+        const initialTime = 1200;
         document.getElementById('customTime').value = initialTime;
         // 若已在計時中，先將已執行時間加入歷史紀錄
         if (countdown) {

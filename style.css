@@ -42,7 +42,7 @@ h1 {
     padding: 10px;
     margin-bottom: 10px;
     font-size: 1em;
-    border: 1px solid #d1d1d1;
+    border: 1px solid #007bff;
     border-radius: 8px;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
@@ -61,6 +61,10 @@ button {
     cursor: pointer;
     color: white;
     transition: background-color 0.3s;
+}
+
+button.start20 {
+    background-color: #6600ff;
 }
 
 button.primary {
@@ -179,8 +183,13 @@ button.pause:hover {
 }
 
 @keyframes alertColor {
-    0% { background-color: #f5deb3; }
-    50% { background-color: #ffffff; }
+    0% {
+        background-color: #f5deb3;
+    }
+
+    50% {
+        background-color: #ffffff;
+    }
 }
 
 .background-break {
@@ -193,15 +202,17 @@ button.pause:hover {
 }
 
 @keyframes flashAnimation {
-    0% { 
+    0% {
         background-color: #f5deb3;
         color: #e74c3c;
     }
-    50% { 
+
+    50% {
         background-color: #e74c3c;
         color: #ffffff;
     }
-    100% { 
+
+    100% {
         background-color: #f5deb3;
         color: #e74c3c;
     }
@@ -215,6 +226,7 @@ button.delete {
     font-size: 18px;
     color: #666;
 }
+
 button.delete:hover {
     color: #333;
 }
@@ -225,7 +237,8 @@ button.delete:hover {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 10px; /* 控制元素間距 */
+    gap: 10px;
+    /* 控制元素間距 */
     margin-bottom: 20px;
     background-color: #ffffff;
     padding: 20px;
@@ -239,7 +252,8 @@ button.delete:hover {
 }
 
 .container input[type="text"] {
-    width: 80%; /* 設置輸入框寬度 */
+    width: 80%;
+    /* 設置輸入框寬度 */
     max-width: 400px;
     padding: 10px;
     font-size: 1em;
