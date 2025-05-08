@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508123423";
+const versionNumber = "v250508123755";
 const DEBUG_MODE = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const videoId = document.getElementById("playlistId")?.value || "";
 const targetPlaylistUrl = "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
 
-const notificationSound = new Audio("notification.mp3");
+const notificationSound = new Audio("data/notification.mp3");
 notificationSound.volume = 1.0;
 
 const TIMER_SETTINGS = {
