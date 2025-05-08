@@ -9,7 +9,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508115208";
+const versionNumber = "v250508115812";
 const DEBUG_MODE = false;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -193,7 +193,7 @@ const Timer = {
     updateTimerDisplay() {
         const minutes = Math.floor(state.remainingTime / 60);
         const seconds = state.remainingTime % 60;
-        document.getElementById("timerDisplay").textContent = `剩餘時間：${minutes} 分 ${seconds.toString().padStart(2, '0')} 秒`;
+        document.getElementById("timerDisplay").textContent = `⏳ ${minutes} 分 ${seconds.toString().padStart(2, '0')} 秒`;
     },
 
     recordCurrentProgressAsComplete(initialTime) {
