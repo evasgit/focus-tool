@@ -3,7 +3,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.9.2-20minbtn";
+const versionNumber = "v1.9.3-video";
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
