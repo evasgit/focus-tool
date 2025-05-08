@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508131044";
+const versionNumber = "v250508135945";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -118,36 +118,50 @@ const Timer = {
         state.remainingTime = TIMER_SETTINGS.initialTime;
         this.start();
     },
-    start() {
-        clearInterval(countdown);
-        const goalText = document.getElementById('goalText').value || '未命名目標';
-        state.lastGoal = goalText;
-        state.hasRecordedHistory = false;
+    const Timer = {
+        start20() {
+            state.remainingTime = TIMER_SETTINGS.initialTime;
+            this.start();
+        },
+        start() {
+            clearInterval(countdown);
+            const goalText = document.getElementById('goalText').value || '未命名目標';
+            state.lastGoal = goalText;
+            state.hasRecordedHistory = false;
 
-        const totalSeconds = parseInt(document.getElementById('customTime').value) * 60;
-        state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
+            const totalSeconds = parseInt(document.getElementById('customTime').value) * 60;
+            state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
 
-        updateTimerDisplay(state.remainingTime);
-        countdown = setInterval(() => {
-            if (state.remainingTime > 0) {
-                state.remainingTime--;
-                state.elapsedSinceLastBreak++;
-                updateTimerDisplay(state.remainingTime);
-            } else {
-                clearInterval(countdown);
-                playNotification();
-                showTodoList();
-                addGoalHistory(goalText);
-            }
-        }, 1000);
-    },
-    pause() {
-        clearInterval(countdown);
-    },
-    startBreak() {
-        clearInterval(countdown);
-        state.remainingTime = TIMER_SETTINGS.breakTime;
-        this.start();
+            updateTimerDisplay(state.remainingTime);
+
+            // ✅ 播放影片 + 背景切換
+            if (typeof player?.playVideo === 'function') player.playVideo();
+            setBodyBackground("normal");
+
+            countdown = setInterval(() => {
+                if (state.remainingTime > 0) {
+                    state.remainingTime--;
+                    state.elapsedSinceLastBreak++;
+                    updateTimerDisplay(state.remainingTime);
+                } else {
+                    clearInterval(countdown);
+                    playNotification();
+                    showTodoList();
+                    addGoalHistory(goalText);
+                    setBodyBackground("alert");  // ⏰ 計時結束後閃爍
+                }
+            }, 1000);
+        },
+        pause() {
+            clearInterval(countdown);
+            setBodyBackground("normal");
+        },
+        startBreak() {
+            clearInterval(countdown);
+            state.remainingTime = TIMER_SETTINGS.breakTime;
+            setBodyBackground("break");
+            this.start();
+        }
     }
 };
 
@@ -169,3 +183,20 @@ function onYouTubeIframeAPIReady() {
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
+
+function setBodyBackground(mode) {
+    const body = document.body;
+    body.classList.remove("background-normal", "background-break", "background-alert");
+
+    switch (mode) {
+        case "normal":
+            body.classList.add("background-normal");
+            break;
+        case "break":
+            body.classList.add("background-break");
+            break;
+        case "alert":
+            body.classList.add("background-alert");
+            break;
+    }
+}
