@@ -4,6 +4,7 @@ let player;
 let currentPlaylist = "";
 
 const versionNumber = "v1.9.3-video";
+const DEBUG_MODE = false; // Set to true for debugging
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
@@ -52,6 +53,7 @@ function updateVideo() {
 
 const Timer = {
     start20() {
+        console.log('20分鐘 button clicked, custom time set to 20 minutes');
         UI.updateBackground("normal");
         // 設置初始時間（讀取用戶自定義的時間）
         document.getElementById('customTime').value = 20;
@@ -67,6 +69,7 @@ const Timer = {
         this.prepareSound();
 
         // 設置播放影片
+        const videoId = document.getElementById("videoId").value.trim();
         this.loadVideo(videoId);
 
         // 設置剩餘時間為初始時間
