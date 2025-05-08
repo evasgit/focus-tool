@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508140221";
+const versionNumber = "v250508140619";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
