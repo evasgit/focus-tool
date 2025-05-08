@@ -84,11 +84,27 @@
         
         <!-- YouTube 播放清單嵌入 -->
         <div class="container">
-            <label for="playlistId">🔽 播放清單</label>
-            <input type="text" id="playlistId" value="PLuiaZ9SritUxkJy00cWvveW7NJuZjQQqQ" placeholder="輸入播放清單 ID">
-            <button onclick="updatePlaylist()">載入播放清單</button>
-            <iframe id="player" src="https://www.youtube.com/embed/videoseries?list=PLuiaZ9SritUxkJy00cWvveW7NJuZjQQqQ&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <label for="videoId">▶️ YouTube 影片 ID</label>
+            <input type="text" id="videoId" value="VVF9Zjc0g18" placeholder="輸入影片 ID">
+            <button onclick="updateVideo()">載入影片</button>
+            <iframe
+                id="player"
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/VVF9Zjc0g18?enablejsapi=1"
+                allow="autoplay; encrypted-media"
+                allowfullscreen>
+            </iframe>
         </div>
+        
+        <script>
+            function updateVideo() {
+                const videoId = document.getElementById("videoId").value.trim();
+                const targetUrl = "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
+                document.getElementById("player").src = targetUrl;
+            }
+        </script>
+
 
     </main>
     <script src="script.js"></script>
