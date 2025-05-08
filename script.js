@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508135945";
+const versionNumber = "v250508140221";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -113,55 +113,50 @@ function addGoalHistory(goalText) {
 }
 
 // ✅ Timer 物件整合
+
 const Timer = {
     start20() {
         state.remainingTime = TIMER_SETTINGS.initialTime;
         this.start();
     },
-    const Timer = {
-        start20() {
-            state.remainingTime = TIMER_SETTINGS.initialTime;
-            this.start();
-        },
-        start() {
-            clearInterval(countdown);
-            const goalText = document.getElementById('goalText').value || '未命名目標';
-            state.lastGoal = goalText;
-            state.hasRecordedHistory = false;
+    start() {
+        clearInterval(countdown);
+        const goalText = document.getElementById('goalText').value || '未命名目標';
+        state.lastGoal = goalText;
+        state.hasRecordedHistory = false;
 
-            const totalSeconds = parseInt(document.getElementById('customTime').value) * 60;
-            state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
+        const totalSeconds = parseInt(document.getElementById('customTime').value) * 60;
+        state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
 
-            updateTimerDisplay(state.remainingTime);
+        updateTimerDisplay(state.remainingTime);
 
-            // ✅ 播放影片 + 背景切換
-            if (typeof player?.playVideo === 'function') player.playVideo();
-            setBodyBackground("normal");
+        // ✅ 播放影片 + 背景切換
+        if (typeof player?.playVideo === 'function') player.playVideo();
+        setBodyBackground("normal");
 
-            countdown = setInterval(() => {
-                if (state.remainingTime > 0) {
-                    state.remainingTime--;
-                    state.elapsedSinceLastBreak++;
-                    updateTimerDisplay(state.remainingTime);
-                } else {
-                    clearInterval(countdown);
-                    playNotification();
-                    showTodoList();
-                    addGoalHistory(goalText);
-                    setBodyBackground("alert");  // ⏰ 計時結束後閃爍
-                }
-            }, 1000);
-        },
-        pause() {
-            clearInterval(countdown);
-            setBodyBackground("normal");
-        },
-        startBreak() {
-            clearInterval(countdown);
-            state.remainingTime = TIMER_SETTINGS.breakTime;
-            setBodyBackground("break");
-            this.start();
-        }
+        countdown = setInterval(() => {
+            if (state.remainingTime > 0) {
+                state.remainingTime--;
+                state.elapsedSinceLastBreak++;
+                updateTimerDisplay(state.remainingTime);
+            } else {
+                clearInterval(countdown);
+                playNotification();
+                showTodoList();
+                addGoalHistory(goalText);
+                setBodyBackground("alert");  // ⏰ 計時結束後閃爍
+            }
+        }, 1000);
+    },
+    pause() {
+        clearInterval(countdown);
+        setBodyBackground("normal");
+    },
+    startBreak() {
+        clearInterval(countdown);
+        state.remainingTime = TIMER_SETTINGS.breakTime;
+        setBodyBackground("break");
+        this.start();
     }
 };
 
