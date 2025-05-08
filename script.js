@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508141141";
+const versionNumber = "v250508141705";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -104,11 +104,50 @@ function showTodoList() {
 }
 
 function addGoalHistory(goalText) {
-    if (state.hasRecordedHistory) return;
+    const durationSec = state.remainingTime || 0;
+    const key = goalText.trim();
+    const now = new Date();
+
+    // 初始化該目標的歷史資料
+    if (!state.goalHistory[key]) {
+        state.goalHistory[key] = {
+            totalSeconds: 0,
+            lastUpdate: null,
+        };
+    }
+
+    // 累加時間並記錄最後更新時間
+    state.goalHistory[key].totalSeconds += durationSec;
+    state.goalHistory[key].lastUpdate = now;
+
+    // 計算顯示文字
+    const total = state.goalHistory[key].totalSeconds;
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const hhmm = now.toTimeString().slice(0, 5);
+
+    const displayText = `🎯 ${key} 累計 ${hours} 小時 ${minutes} 分（上次更新 ${hhmm}）`;
+
+    // upsert DOM 元素
     const ul = document.getElementById('goalHistory');
-    const li = document.createElement('li');
-    li.textContent = `🎯 ${goalText} 完成 ✅`;
-    ul.insertBefore(li, ul.firstChild);
+    const existingItems = ul.getElementsByTagName('li');
+    let updated = false;
+
+    for (let li of existingItems) {
+        if (li.dataset.goal === key) {
+            li.textContent = displayText;
+            updated = true;
+            break;
+        }
+    }
+
+    if (!updated) {
+        const li = document.createElement('li');
+        li.textContent = displayText;
+        li.dataset.goal = key;
+        ul.insertBefore(li, ul.firstChild);
+    }
+
     state.hasRecordedHistory = true;
 }
 
