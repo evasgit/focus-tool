@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508140619";
+const versionNumber = "v250508141141";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -142,7 +142,7 @@ const Timer = {
             } else {
                 clearInterval(countdown);
                 playNotification();
-                showTodoList();
+                // showTodoList();
                 addGoalHistory(goalText);
                 setBodyBackground("alert");  // ⏰ 計時結束後閃爍
             }
