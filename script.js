@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508122007";
+const versionNumber = "v250508123037";
 const DEBUG_MODE = false;
 
 document.addEventListener("DOMContentLoaded", () => {
