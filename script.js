@@ -9,7 +9,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v1.9.3-video";
+const versionNumber = "v250508115208";
 const DEBUG_MODE = false;
 
 document.addEventListener("DOMContentLoaded", () => {
