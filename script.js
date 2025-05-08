@@ -44,6 +44,12 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', { events: { 'onReady': () => { } } });
 }
 
+function updateVideo() {
+    const videoId = document.getElementById("videoId").value.trim();
+    const targetUrl = "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
+    document.getElementById("player").src = targetUrl;
+}
+
 const Timer = {
     start20() {
         UI.updateBackground("normal");
@@ -60,8 +66,8 @@ const Timer = {
         UI.toggleTodoList(false);
         this.prepareSound();
 
-        // 設置播放清單
-        this.loadPlaylist("PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP");
+        // 設置播放影片
+        this.loadVideo(videoId);
 
         // 設置剩餘時間為初始時間
         state.remainingTime = initialTime;
