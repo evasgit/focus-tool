@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
-    <script src="https://cdn.tiny.cloud/1/ho1n04sdgllswsqa9d29ibed0ik3rjekeku61s4zhbnugwvg/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/ho1n04sdgllswsqa9d29ibed0ik3rjekeku61s4zhbnugwvg/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>專注目標計時器</title>
@@ -18,10 +20,14 @@
         <section id="todoList" style="display:none;">
             <h3>🐸 待辦事項</h3>
             <ul style="display: flex; flex-wrap: wrap; list-style-type: none; padding: 0;">
-                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox"> 喝水</label></li>
-                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox"> 上廁所</label></li>
-                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox"> 看訊息</label></li>
-                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox"> 紀錄進度</label></li>
+                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox">
+                        喝水</label></li>
+                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox">
+                        上廁所</label></li>
+                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox">
+                        看訊息</label></li>
+                <li style="flex: 1 1 45%; min-width: 100px; text-align: center;"><label><input type="checkbox">
+                        紀錄進度</label></li>
             </ul>
         </section>
         <section id="goal-section">
@@ -53,27 +59,27 @@
             <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
             <script>
                 tinymce.init({
-                selector: 'textarea',
-                plugins: [
-                  // Core editing features
-                  'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                  // Your account includes a free trial of TinyMCE premium features
-                  // Try the most popular premium features until Nov 27, 2024:
-                  //'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-                  // Early access to document converters
-                  //'importword', 'exportword', 'exportpdf'
-                ],
-                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                tinycomments_mode: 'embedded',
-                tinycomments_author: 'Author name',
-                mergetags_list: [
-                  { value: 'First.Name', title: 'First Name' },
-                  { value: 'Email', title: 'Email' },
-                ],
-                ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-                exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
-                exportword_converter_options: { 'document': { 'size': 'Letter' } },
-                importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
+                    selector: 'textarea',
+                    plugins: [
+                        // Core editing features
+                        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+                        // Your account includes a free trial of TinyMCE premium features
+                        // Try the most popular premium features until Nov 27, 2024:
+                        //'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
+                        // Early access to document converters
+                        //'importword', 'exportword', 'exportpdf'
+                    ],
+                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                    tinycomments_mode: 'embedded',
+                    tinycomments_author: 'Author name',
+                    mergetags_list: [
+                        { value: 'First.Name', title: 'First Name' },
+                        { value: 'Email', title: 'Email' },
+                    ],
+                    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+                    exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
+                    exportword_converter_options: { 'document': { 'size': 'Letter' } },
+                    importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline', 'defaults': 'inline', } },
                 });
                 let isTinyMCELoaded = true;
             </script>
@@ -81,22 +87,17 @@
               ...
             </textarea>
         </section>
-        
+
         <!-- YouTube 播放清單嵌入 -->
         <div class="container">
             <label for="videoId">▶️ YouTube 影片 ID</label>
             <input type="text" id="videoId" value="VVF9Zjc0g18" placeholder="輸入影片 ID">
             <button onclick="updateVideo()">載入影片</button>
-            <iframe
-                id="player"
-                width="560"
-                height="315"
-                src="https://www.youtube.com/embed/VVF9Zjc0g18?enablejsapi=1"
-                allow="autoplay; encrypted-media"
-                allowfullscreen>
+            <iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/VVF9Zjc0g18?enablejsapi=1"
+                allow="autoplay; encrypted-media" allowfullscreen>
             </iframe>
         </div>
-        
+
         <script>
             function updateVideo() {
                 const videoId = document.getElementById("videoId").value.trim();
@@ -109,4 +110,5 @@
     </main>
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // const targetPlaylistUrl = "https://www.youtube.com/embed/videoseries?list=" + document.getElementById("playlistId") + "&enablejsapi=1";
-const videoId = document.getElementById("playlistId").value; 
+const videoId = document.getElementById("playlistId").value;
 const targetPlaylistUrl = "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
 
 const notificationSound = new Audio("notification.mp3");
@@ -41,7 +41,7 @@ function clearCustomTime() {
 
 // YouTube 播放器初始化
 function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', { events: { 'onReady': () => {} } });
+    player = new YT.Player('player', { events: { 'onReady': () => { } } });
 }
 
 const Timer = {
@@ -106,7 +106,7 @@ const Timer = {
         // 關閉 flash 效果
         UI.removeFlashEffect();
     },
-    
+
     recordCurrentProgressAsComplete(initialTime) {
         // 若有正在進行的計時器，將其累積的時間記錄至歷史紀錄
         const elapsedTime = initialTime - state.remainingTime; // 已經過的時間，使用自定義的初始時間計算
@@ -152,7 +152,7 @@ const Timer = {
         UI.updateBackground("break");
         this.initializeCountdown(breakTime * 60, this.updateTimerDisplay, this.endBreak);
     },
-    
+
     prepareSound() {
         notificationSound.load();
         notificationSound.play().catch(() => alert("音效預載失敗，但可以在結束時播放"));
@@ -231,7 +231,7 @@ const Timer = {
 const History = {
     recordGoal(goal, time) {
         if (!goal || state.hasRecordedHistory) return;
-        
+
         // 若沒有該目標的歷史紀錄，則初始化
         if (!state.goalHistory[goal]) {
             state.goalHistory[goal] = { count: 0, totalTime: 0, lastUpdated: null };
