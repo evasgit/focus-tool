@@ -1,10 +1,16 @@
+
+// ========================
+// Focus Timer Script v1.9.3-video (整合按鈕收納版)
+// ========================
+
+// 已初始化變數與常數
 let countdown;
 let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
 const versionNumber = "v1.9.3-video";
-const DEBUG_MODE = false; // Set to true for debugging
+const DEBUG_MODE = false;
 
 document.addEventListener("DOMContentLoaded", () => {
     const versionElement = document.getElementById("version");
@@ -13,17 +19,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// const targetPlaylistUrl = "https://www.youtube.com/embed/videoseries?list=" + document.getElementById("playlistId") + "&enablejsapi=1";
-const videoId = document.getElementById("playlistId").value;
+const videoId = document.getElementById("playlistId")?.value || "";
 const targetPlaylistUrl = "https://www.youtube.com/embed/" + videoId + "?enablejsapi=1";
 
 const notificationSound = new Audio("notification.mp3");
-notificationSound.volume = 1.0; // 設置音量為最大（0.0 - 1.0）
+notificationSound.volume = 1.0;
 
 const TIMER_SETTINGS = {
-    initialTime: 1200, // 20 分鐘 (1200 秒)
-    initialTimeMin: 20, // 20 分鐘 (1200 秒)
-    breakTime: 600 // 10 分鐘 (600 秒)
+    initialTime: 1200,
+    initialTimeMin: 20,
+    breakTime: 600
 };
 
 const state = {
@@ -34,13 +39,11 @@ const state = {
     hasRecordedHistory: false,
 };
 
-// 目標文字清空
 function clearCustomTime() {
     document.getElementById('goalText').value = '';
     document.getElementById('customTime').value = TIMER_SETTINGS.initialTimeMin;
 }
 
-// YouTube 播放器初始化
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', { events: { 'onReady': () => { } } });
 }
@@ -55,74 +58,42 @@ const Timer = {
     start20() {
         console.log('20分鐘 button clicked, custom time set to 20 minutes');
         UI.updateBackground("normal");
-        // 設置初始時間（讀取用戶自定義的時間）
         document.getElementById('customTime').value = 20;
         const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
-        // 若已在計時中，先將已執行時間加入歷史紀錄
         if (countdown) {
-            this.recordCurrentProgressAsComplete(initialTime); // 使用用戶自定義時間計算已經過時間
-            clearInterval(countdown); // 清除現有計時器
-            clearInterval(elapsedInterval); // 清除累積時間計時器
+            this.recordCurrentProgressAsComplete(initialTime);
+            clearInterval(countdown);
+            clearInterval(elapsedInterval);
         }
-
         UI.toggleTodoList(false);
         this.prepareSound();
-
-        // 設置播放影片
         const videoId = document.getElementById("videoId").value.trim();
         this.loadVideo(videoId);
-
-        // 設置剩餘時間為初始時間
         state.remainingTime = initialTime;
-
-        // 啟動倒數計時
         this.resetElapsedSinceLastBreak();
         this.initializeCountdown(initialTime, this.updateTimerDisplay, this.end);
         player.unMute();
         this.updateGoal();
-
-        // 關閉 flash 效果
         UI.removeFlashEffect();
     },
 
     start() {
         UI.updateBackground("normal");
-        // 設置初始時間（讀取用戶自定義的時間）
         const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
-
-        // 若已在計時中，先將已執行時間加入歷史紀錄
         if (countdown) {
-            this.recordCurrentProgressAsComplete(initialTime); // 使用用戶自定義時間計算已經過時間
-            clearInterval(countdown); // 清除現有計時器
-            clearInterval(elapsedInterval); // 清除累積時間計時器
+            this.recordCurrentProgressAsComplete(initialTime);
+            clearInterval(countdown);
+            clearInterval(elapsedInterval);
         }
-
         UI.toggleTodoList(false);
         this.prepareSound();
-
-        // 設置播放清單
         this.loadPlaylist("PLzhJK6pylmas2Wa67YKOcrAx-xq4MxiQP");
-
-        // 設置剩餘時間為初始時間
         state.remainingTime = initialTime;
-
-        // 啟動倒數計時
         this.resetElapsedSinceLastBreak();
         this.initializeCountdown(initialTime, this.updateTimerDisplay, this.end);
         player.unMute();
         this.updateGoal();
-
-        // 關閉 flash 效果
         UI.removeFlashEffect();
-    },
-
-    recordCurrentProgressAsComplete(initialTime) {
-        // 若有正在進行的計時器，將其累積的時間記錄至歷史紀錄
-        const elapsedTime = initialTime - state.remainingTime; // 已經過的時間，使用自定義的初始時間計算
-        if (state.lastGoal && elapsedTime > 0) {
-            History.recordGoal(state.lastGoal, elapsedTime);
-            History.updateHistoryDisplay();
-        }
     },
 
     pause() {
@@ -135,29 +106,21 @@ const Timer = {
     startBreak() {
         UI.updateBackground("normal");
         UI.removeFlashEffect();
-
-        // 設置初始時間（讀取用戶自定義的時間）
         const initialTime = this.getCustomTime() || TIMER_SETTINGS.initialTime;
-        // 若已在計時中，先將已執行時間加入歷史紀錄
         if (countdown) {
-            this.recordCurrentProgressAsComplete(initialTime); // 使用用戶自定義時間計算已經過時間
-            clearInterval(countdown); // 清除現有計時器
-            clearInterval(elapsedInterval); // 清除累積時間計時器
+            this.recordCurrentProgressAsComplete(initialTime);
+            clearInterval(countdown);
+            clearInterval(elapsedInterval);
         }
         this.loadVideo("NobJD8The0Q");
         currentPlaylist = "";
         state.remainingTime = TIMER_SETTINGS.breakTime;
-        // 取得 <option id="break">
         const breakOption = document.querySelector('#goalOptions option#break');
-        // 取得相關屬性值
-        const breakValue = breakOption.value; // "休息：喝水、廁所、看訊息、紀錄進度"
-        const breakTime = parseInt(breakOption.dataset.time); // 10
-        // 更新目標輸入框和時間輸入框的值
+        const breakValue = breakOption.value;
+        const breakTime = parseInt(breakOption.dataset.time);
         document.getElementById('goalText').value = breakValue;
         document.getElementById('customTime').value = breakTime;
-        // 顯示操作訊息（可選）
         console.log(`已設定目標：${breakValue}，時間：${breakTime} 分鐘`);
-        // UI.toggleTodoList(true);
         UI.updateBackground("break");
         this.initializeCountdown(breakTime * 60, this.updateTimerDisplay, this.endBreak);
     },
@@ -213,7 +176,7 @@ const Timer = {
 
     endBreak() {
         UI.resetBackground();
-        notificationSound.play().catch(() => alert("休息結束音效播放失敗，可能受到瀏覽器限制"));
+        notificationSound.play().catch(() => alert("休息結束音效播放失敗"));
         History.updateHistoryDisplay();
     },
 
@@ -231,29 +194,30 @@ const Timer = {
         const minutes = Math.floor(state.remainingTime / 60);
         const seconds = state.remainingTime % 60;
         document.getElementById("timerDisplay").textContent = `剩餘時間：${minutes} 分 ${seconds.toString().padStart(2, '0')} 秒`;
+    },
+
+    recordCurrentProgressAsComplete(initialTime) {
+        const elapsedTime = initialTime - state.remainingTime;
+        if (state.lastGoal && elapsedTime > 0) {
+            History.recordGoal(state.lastGoal, elapsedTime);
+            History.updateHistoryDisplay();
+        }
     }
 };
 
-
-
-// 更新目標的記錄，包括使用次數、累計時間和儲存時間
 const History = {
     recordGoal(goal, time) {
         if (!goal || state.hasRecordedHistory) return;
-
-        // 若沒有該目標的歷史紀錄，則初始化
         if (!state.goalHistory[goal]) {
             state.goalHistory[goal] = { count: 0, totalTime: 0, lastUpdated: null };
         }
-
-        // 更新使用次數和累計時間
         state.goalHistory[goal].count++;
         state.goalHistory[goal].totalTime += time;
-        // 檢查 totalTime 是否超過 1 小時
+
         if (state.goalHistory[goal].totalTime > 1 * 60 * 60) {
-            alert(`目標「${goal}」的總時間已超過 1 小時(${state.goalHistory[goal].totalTime / 60} 分鐘)！請確認是否要「找人討論」或「修正目標」`);
+            alert(`目標「${goal}」的總時間已超過 1 小時(${state.goalHistory[goal].totalTime / 60} 分鐘)！`);
         }
-        // 設置更新日期時間（格式為 10:41 PM (11/13)）
+
         const now = new Date();
         const options = { hour: 'numeric', minute: 'numeric', hour12: true };
         const formattedTime = now.toLocaleTimeString('en-US', options);
@@ -261,40 +225,34 @@ const History = {
         state.goalHistory[goal].lastUpdated = `${formattedTime} (${formattedDate})`;
 
         state.hasRecordedHistory = true;
-        this.updateHistoryDisplay(); // 更新歷史顯示
+        this.updateHistoryDisplay();
     },
 
     updateHistoryDisplay() {
         const historyList = document.getElementById("goalHistory");
         historyList.innerHTML = "";
-
-        // 強制 DOM 重繪：暫時隱藏並顯示列表
         historyList.style.display = 'none';
-        historyList.offsetHeight; // 觸發重繪
+        historyList.offsetHeight;
         historyList.style.display = '';
 
-        // 顯示每個目標的詳細資訊
         for (const [goal, data] of Object.entries(state.goalHistory)) {
             const hours = Math.floor(data.totalTime / 3600);
             const minutes = Math.floor((data.totalTime % 3600) / 60);
             const seconds = data.totalTime % 60;
 
-            // 構建時間顯示字串，僅顯示非零的部分
             let timeDisplay = "累計 ";
             if (hours > 0) timeDisplay += `${hours} 時 `;
             if (minutes > 0) timeDisplay += `${minutes} 分 `;
             if (seconds > 0) timeDisplay += `${seconds} 秒`;
 
             const li = document.createElement("li");
-            li.textContent = `🐣 🐣 🐣 ${goal} - ${data.count} 次，${timeDisplay.trim()}，${data.lastUpdated} 更新`;
+            li.textContent = `🐣 ${goal} - ${data.count} 次，${timeDisplay.trim()}，${data.lastUpdated} 更新`;
             li.onclick = () => UI.populateGoalInput(goal);
             historyList.prepend(li);
         }
     }
 };
 
-
-// UI 管理
 const UI = {
     toggleTodoList(visible) {
         document.getElementById("todoList").style.display = visible ? "block" : "none";
@@ -335,18 +293,36 @@ const UI = {
     }
 };
 
-// 綁定按鈕事件
-document.querySelector(".start20").onclick = () => Timer.start20();
-document.querySelector(".primary").onclick = () => Timer.start();
-document.querySelector(".pause").onclick = () => Timer.pause();
-document.getElementById("breakButton").onclick = () => Timer.startBreak();
+// 🎯 新版按鈕整合邏輯
+document.getElementById("start20Btn").addEventListener("click", () => Timer.start20());
+document.getElementById("actionSelect").addEventListener("change", function () {
+    const isCustom = this.value === "custom";
+    document.getElementById("customTime").style.display = isCustom ? "inline-block" : "none";
+});
+document.getElementById("actionRunBtn").addEventListener("click", () => {
+    const action = document.getElementById("actionSelect").value;
+    const customMinutes = parseInt(document.getElementById("customTime").value);
 
-// YouTube Iframe API 加載
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);
+    switch (action) {
+        case "custom":
+            if (!isNaN(customMinutes) && customMinutes > 0) {
+                Timer.start();
+            } else {
+                alert("請輸入有效的分鐘數");
+            }
+            break;
+        case "pause":
+            Timer.pause();
+            break;
+        case "break":
+            Timer.startBreak();
+            break;
+        default:
+            alert("請選擇一個動作");
+    }
+});
 
-// 預設項目時間
+// 預設項目選擇時自動帶入時間
 document.getElementById('goalText').addEventListener('input', function () {
     const goalText = this.value;
     const dataList = document.getElementById('goalOptions');
@@ -363,9 +339,13 @@ document.getElementById('goalText').addEventListener('input', function () {
     }
 });
 
+// 手動更新播放清單
 function updatePlaylist() {
     const playlistId = document.getElementById("playlistId").value;
     const iframe = document.getElementById("player");
     iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&enablejsapi=1`;
-    const targetPlaylistUrl = iframe.src;
 }
+
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+document.getElementsByTagName('script')[0].parentNode.insertBefore(tag, document.getElementsByTagName('script')[0]);

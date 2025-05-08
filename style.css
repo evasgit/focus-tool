@@ -1,226 +1,68 @@
-/* 全局樣式 */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f4f8;
     color: #333;
     margin: 0;
+    padding: 10px;
+    width: 489px;
+    height: 464px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+main {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    gap: 8px;
 }
 
-h1 {
-    font-size: 2.5em;
-    color: #4a4a4a;
+/* 版本號 */
+#version {
+    font-size: 10px;
+    color: #666;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    opacity: 0.6;
 }
 
-/* 目標輸入區域 */
-#goal-section {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 20px;
-    width: 100%;
-    max-width: 600px;
-}
-
-#goalText {
-    width: 80%;
+/* 區塊統一樣式 */
+#goal-section,
+#timer-display-section,
+#todoList,
+.container {
+    background-color: #fff;
     padding: 10px;
-    margin-bottom: 10px;
-    font-size: 1em;
-    border: 1px solid #d1d1d1;
     border-radius: 8px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-#customTime {
-    width: 10%;
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 1em;
-    border: 1px solid #007bff;
-    border-radius: 8px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* 按鈕樣式 */
-#button-group {
-    margin-top: 10px;
-}
-
-button {
-    padding: 10px 15px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
-    margin: 5px;
-    cursor: pointer;
-    color: white;
-    transition: background-color 0.3s;
-}
-
-button.start20 {
-    background-color: #6600ff;
-}
-
-button.primary {
-    background-color: #007bff;
-}
-
-button.primary:hover {
-    background-color: #0056b3;
-}
-
-button.pause {
-    background-color: #6c757d;
-}
-
-button.pause:hover {
-    background-color: #5a6268;
-}
-
-#breakButton {
-    background-color: #28a745;
-}
-
-#breakButton:hover {
-    background-color: #218838;
-}
-
-/* 計時顯示樣式 */
-#timer-display-section {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
     text-align: center;
     width: 100%;
-    max-width: 600px;
+    box-sizing: border-box;
 }
 
+/* 計時顯示 */
 #timerDisplay {
-    font-size: 2em;
+    font-size: 20px;
     color: #e74c3c;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 #noBreakTime {
-    font-size: 1em;
+    font-size: 14px;
     color: #555;
 }
 
-/* 歷史區域樣式 */
-#history ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#history li {
-    margin: 5px 0;
-    padding: 10px;
-    background-color: #ffffff;
+/* 目標區輸入 */
+#goalText {
+    width: 70%;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    cursor: pointer;
+    margin-right: 5px;
 }
 
-#history li:hover {
-    background-color: #f1f1f1;
-}
-
-/* 待辦事項清單樣式 */
-#todoList {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 20px;
-}
-
-#todoList h3 {
-    font-size: 1.2em;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-#todoList li {
-    font-size: 1em;
-    color: #555;
-    margin: 5px 0;
-}
-
-#version {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 0.8em;
-    color: #666;
-    opacity: 0.7;
-}
-
-#noteArea {
-    width: 100%;
-    height: 100px;
-    margin-top: 10px;
-    display: none;
-}
-
-/* 背景顏色動畫樣式 */
-.background-normal {
-    background-color: #f5deb3;
-}
-
-.background-alert {
-    animation: alertColor 2s infinite;
-}
-
-@keyframes alertColor {
-    0% {
-        background-color: #f5deb3;
-    }
-
-    50% {
-        background-color: #ffffff;
-    }
-}
-
-.background-break {
-    background-color: #b0c4de;
-}
-
-/* timer-display-section 閃爍效果 */
-.flash {
-    animation: flashAnimation 1s infinite;
-}
-
-@keyframes flashAnimation {
-    0% {
-        background-color: #f5deb3;
-        color: #e74c3c;
-    }
-
-    50% {
-        background-color: #e74c3c;
-        color: #ffffff;
-    }
-
-    100% {
-        background-color: #f5deb3;
-        color: #e74c3c;
-    }
-}
-
-/* 目標文字清空 */
 button.delete {
-    background-color: transparent;
+    background: none;
     border: none;
     cursor: pointer;
     font-size: 18px;
@@ -231,56 +73,142 @@ button.delete:hover {
     color: #333;
 }
 
-/* 播放清單嵌入樣式 */
-.container {
+/* 按鈕群組與選單 */
+#button-group {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    text-align: center;
-    gap: 10px;
-    /* 控制元素間距 */
-    margin-bottom: 20px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    gap: 6px;
+    padding-top: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
 }
 
-.container label {
-    font-size: 1em;
-    font-weight: bold;
+#button-group select,
+#button-group input,
+#button-group button {
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    flex-shrink: 0;
+}
+
+#start20Btn {
+    background-color: #6600ff;
+    color: #fff;
+    border: none;
+}
+
+#start20Btn:hover {
+    background-color: #4b00cc;
+}
+
+#actionRunBtn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+}
+
+#actionRunBtn:hover {
+    background-color: #0056b3;
+}
+
+/* 歷史區 */
+#history ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#history li {
+    padding: 6px;
+    background: #fff;
+    border-radius: 4px;
+    margin: 4px 0;
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 待辦清單 */
+#todoList ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px;
+}
+
+#todoList li {
+    flex: 1 1 48%;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* YouTube 區 */
+.container iframe {
+    width: 100%;
+    height: 180px;
+    max-width: 100%;
+    border: none;
 }
 
 .container input[type="text"] {
-    width: 80%;
-    /* 設置輸入框寬度 */
-    max-width: 400px;
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #d1d1d1;
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .container button {
-    padding: 10px 15px;
-    font-size: 1em;
-    border: none;
-    border-radius: 5px;
+    padding: 6px 10px;
+    font-size: 14px;
     background-color: #007bff;
     color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border: none;
+    border-radius: 4px;
 }
 
 .container button:hover {
     background-color: #0056b3;
 }
 
-.container iframe {
+/* TinyMCE 區 */
+#noteArea {
     width: 100%;
-    max-width: 560px;
-    height: 315px;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    height: 100px;
+    margin-top: 10px;
+    display: none;
+}
+
+/* 背景動畫類型 */
+.background-normal {
+    background-color: #f5deb3;
+}
+
+.background-alert {
+    animation: alertColor 2s infinite;
+}
+
+@keyframes alertColor {
+    0% { background-color: #f5deb3; }
+    50% { background-color: #ffffff; }
+    100% { background-color: #f5deb3; }
+}
+
+.background-break {
+    background-color: #b0c4de;
+}
+
+/* 閃爍效果 */
+.flash {
+    animation: flashAnimation 1s infinite;
+}
+
+@keyframes flashAnimation {
+    0%   { background-color: #f5deb3; color: #e74c3c; }
+    50%  { background-color: #e74c3c; color: #fff; }
+    100% { background-color: #f5deb3; color: #e74c3c; }
 }
