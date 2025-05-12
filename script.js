@@ -8,7 +8,7 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250508141705";
+const versionNumber = "v250512092516";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -159,6 +159,7 @@ const Timer = {
         this.start();
     },
     start() {
+        playNotification();
         clearInterval(countdown);
         const goalText = document.getElementById('goalText').value || '未命名目標';
         state.lastGoal = goalText;
