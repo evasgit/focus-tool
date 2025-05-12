@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250512103656";
+const versionNumber = "v250512104410";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -120,11 +120,11 @@ function showTodoList() {
 }
 
 function addGoalHistory(goalText) {
-    const durationSec = state.remainingTime || 0;
     const key = goalText.trim();
     const now = new Date();
 
-    // 初始化該目標的歷史資料
+    const durationSec = Math.floor((Date.now() - state.startedAt) / 1000); // ✅ 真實倒數秒數
+
     if (!state.goalHistory[key]) {
         state.goalHistory[key] = {
             totalSeconds: 0,
@@ -132,11 +132,9 @@ function addGoalHistory(goalText) {
         };
     }
 
-    // 累加時間並記錄最後更新時間
     state.goalHistory[key].totalSeconds += durationSec;
     state.goalHistory[key].lastUpdate = now;
 
-    // 計算顯示文字
     const total = state.goalHistory[key].totalSeconds;
     const hours = Math.floor(total / 3600);
     const minutes = Math.floor((total % 3600) / 60);
@@ -144,7 +142,6 @@ function addGoalHistory(goalText) {
 
     const displayText = `🎯 ${key} 累計 ${hours} 小時 ${minutes} 分（上次更新 ${hhmm}）`;
 
-    // upsert DOM 元素
     const ul = document.getElementById('goalHistory');
     const existingItems = ul.getElementsByTagName('li');
     let updated = false;
@@ -166,6 +163,7 @@ function addGoalHistory(goalText) {
 
     state.hasRecordedHistory = true;
 }
+
 
 // ✅ Timer 物件整合
 
@@ -190,6 +188,7 @@ const Timer = {
         const goalText = document.getElementById('goalText').value || '未命名目標';
         state.lastGoal = goalText;
         state.hasRecordedHistory = false;
+        state.startedAt = Date.now();
 
         const totalSeconds = parseInt(document.getElementById('customTime').value) * 60;
         state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
