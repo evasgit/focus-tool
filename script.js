@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250512121237";
+const versionNumber = "v250512122052";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -207,11 +207,14 @@ const Timer = {
             } else {
                 player.pauseVideo();
                 playNotification();  // 🔁 重複播放音效
-                // showTodoList();
-                addGoalHistory(goalText);
+                if (!state.hasRecordedHistory) {
+                    addGoalHistory(goalText);
+                    state.hasRecordedHistory = true;
+                }
                 setBodyBackground("alert");  // ⏰ 計時結束後閃爍
             }
         }, 1000);
+
     },
     pause() {
         clearInterval(countdown);
