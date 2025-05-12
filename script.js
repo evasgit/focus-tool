@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250512104410";
+const versionNumber = "v250512121237";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -120,10 +120,9 @@ function showTodoList() {
 }
 
 function addGoalHistory(goalText) {
+    const durationSec = state.lastDurationSec || 0;
     const key = goalText.trim();
     const now = new Date();
-
-    const durationSec = Math.floor((Date.now() - state.startedAt) / 1000); // ✅ 真實倒數秒數
 
     if (!state.goalHistory[key]) {
         state.goalHistory[key] = {
@@ -192,6 +191,7 @@ const Timer = {
 
         const totalSeconds = parseInt(document.getElementById('customTime').value) * 60;
         state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
+        state.lastDurationSec = state.remainingTime;  // ✅ 新增這行
 
         updateTimerDisplay(state.remainingTime);
 
