@@ -9,10 +9,10 @@ let player;
 let currentPlaylist = "";
 
 // ✅ 音效初始化與鈴聲狀態
-let notificationSound = new Audio("notification.mp3");
+let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250512100759";
+const versionNumber = "v250512103656";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
