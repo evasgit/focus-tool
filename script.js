@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250512094607";
+const versionNumber = "v250512100759";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -206,7 +206,7 @@ const Timer = {
                 state.elapsedSinceLastBreak++;
                 updateTimerDisplay(state.remainingTime);
             } else {
-                clearInterval(countdown);
+                player.pauseVideo();
                 playNotification();  // 🔁 重複播放音效
                 // showTodoList();
                 addGoalHistory(goalText);
