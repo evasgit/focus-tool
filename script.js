@@ -8,7 +8,11 @@ let elapsedInterval;
 let player;
 let currentPlaylist = "";
 
-const versionNumber = "v250512092516";
+// ✅ 音效初始化與鈴聲狀態
+let notificationSound = new Audio("notification.mp3");
+let isRinging = false;
+
+const versionNumber = "v250512094607";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -90,12 +94,24 @@ function updateTimerDisplay(seconds) {
 }
 
 function playNotification() {
-    const notificationSound = new Audio("data/notification.mp3");
-    notificationSound.volume = 1.0;
-    try {
-        notificationSound.play();
-    } catch (e) {
-        if (DEBUG_MODE) console.error("🔇 無法播放提示音", e);
+    if (!isRinging) {
+        isRinging = true;
+        try {
+            notificationSound.loop = true;        // ✅ 開啟循環
+            notificationSound.currentTime = 0;    // 從頭開始
+            notificationSound.play();
+        } catch (e) {
+            if (DEBUG_MODE) console.error("🔇 無法播放結束鈴聲", e);
+        }
+    }
+}
+
+function stopNotification() {
+    if (isRinging) {
+        notificationSound.pause();
+        notificationSound.currentTime = 0;
+        notificationSound.loop = false;
+        isRinging = false;
     }
 }
 
@@ -159,7 +175,17 @@ const Timer = {
         this.start();
     },
     start() {
-        playNotification();
+
+        // 🛑 停止提示音
+        stopNotification();  // ⛔ 停止任何重複播放狀態
+        // ▶️ 播放一次（不重複）
+        try {
+            notificationSound.loop = false;
+            notificationSound.currentTime = 0;
+            notificationSound.play();
+        } catch (e) {
+            if (DEBUG_MODE) console.error("🔇 無法播放啟動提示音", e);
+        }
         clearInterval(countdown);
         const goalText = document.getElementById('goalText').value || '未命名目標';
         state.lastGoal = goalText;
@@ -181,7 +207,7 @@ const Timer = {
                 updateTimerDisplay(state.remainingTime);
             } else {
                 clearInterval(countdown);
-                playNotification();
+                playNotification();  // 🔁 重複播放音效
                 // showTodoList();
                 addGoalHistory(goalText);
                 setBodyBackground("alert");  // ⏰ 計時結束後閃爍
