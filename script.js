@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250522131749";
+const versionNumber = "v250522131949";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementById("pause").addEventListener("click", () => Timer.pause());
     document.getElementById("start20Btn").addEventListener("click", () => Timer.start20());
+    document.getElementById("startBtn").addEventListener("click", () => Timer.start());
     document.getElementById("actionSelect").addEventListener("change", function () {
         const isCustom = this.value === "custom";
         document.getElementById("customTime").style.display = isCustom ? "inline-block" : "none";
