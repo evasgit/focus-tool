@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250522130502";
+const versionNumber = "v250522130925";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -35,7 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (versionElement) versionElement.textContent = versionNumber;
 
     // 綁定按鈕與選單事件
-    document.getElementById("break").addEventListener("click", () => Timer.startBreak());
+    const breakBtn = document.getElementById('breakBtn');
+    breakBtn.addEventListener('click', () => {
+        const min = parseInt(breakBtn.dataset.min, 10) || 10;
+        Timer.startBreak(min);
+    });
     document.getElementById("pause").addEventListener("click", () => Timer.pause());
     document.getElementById("start20Btn").addEventListener("click", () => Timer.start20());
     document.getElementById("actionSelect").addEventListener("change", function () {
@@ -223,10 +227,11 @@ const Timer = {
         clearInterval(countdown);
         setBodyBackground("normal");
     },
-    startBreak() {
+    startBreak(min = 10) {
         clearInterval(countdown);
-        state.remainingTime = TIMER_SETTINGS.breakTime;
-        document.getElementById('customTime').value = TIMER_SETTINGS.breakTime / 60;
+        state.remainingTime = min * 60;
+        state.elapsedSinceLastBreak = 0;
+        document.getElementById('customTime').value = min;
         setBodyBackground("break");
         this.start();
     }
