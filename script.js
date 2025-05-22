@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250522131319";
+const versionNumber = "v250522131749";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -226,6 +226,7 @@ const Timer = {
     pause() {
         clearInterval(countdown);
         setBodyBackground("normal");
+        if (typeof player?.pauseVideo === 'function') player.pauseVideo();
     },
     startBreak(min = 10) {
         clearInterval(countdown);
