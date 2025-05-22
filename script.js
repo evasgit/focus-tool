@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250522124457";
+const versionNumber = "v250522130004";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (versionElement) versionElement.textContent = versionNumber;
 
     // 綁定按鈕與選單事件
+    document.getElementById("break").addEventListener("click", () => Timer.startBreak());
+    document.getElementById("pause").addEventListener("click", () => Timer.pause());
     document.getElementById("start20Btn").addEventListener("click", () => Timer.start20());
     document.getElementById("actionSelect").addEventListener("change", function () {
         const isCustom = this.value === "custom";
@@ -224,6 +226,7 @@ const Timer = {
     startBreak() {
         clearInterval(countdown);
         state.remainingTime = TIMER_SETTINGS.breakTime;
+        document.getElementById('customTime').value = TIMER_SETTINGS.breakTime / 60;
         setBodyBackground("break");
         this.start();
     }
