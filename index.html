@@ -44,15 +44,18 @@
                 <option value="週報" data-time="20"></option>
             </datalist>
             <div id="button-group">
-                <button id="start20Btn">20分鐘</button>
-                <select id="actionSelect">
-                    <option value="" disabled selected>其他動作</option>
-                    <option value="custom">⏱️ 自訂時間</option>
-                    <option value="pause">⏸️ 暫停</option>
-                    <option value="break">💤 休息 10 分鐘</option>
-                </select>
-                <input type="number" id="customTime" value="20" min="1" style="display: none;" />
-                <button id="actionRunBtn">執行</button>
+                <!-- 既定 20 分鐘 ▶️ -->
+                <button id="start20Btn" data-min="20">▶️20</button>
+
+                <!-- 快速休息 10 分鐘 💤 -->
+                <button id="break" data-min="10">💤10</button>
+
+                <!-- 暫停 ⏸️ -->
+                <button id="pause">⏸️</button>
+
+                <!-- 自訂分鐘數 ＋ ▶️ -->
+                <input type="number" id="customTime" value="20" min="1" style="width:4.5em;" />
+                <button id="startCustomBtn">▶️</button>
             </div>
         </section>
         <section id="history">

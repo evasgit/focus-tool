@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250522130004";
+const versionNumber = "v250522130137";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
