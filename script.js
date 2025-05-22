@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250522130925";
+const versionNumber = "v250522131319";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -232,6 +232,7 @@ const Timer = {
         state.remainingTime = min * 60;
         state.elapsedSinceLastBreak = 0;
         document.getElementById('customTime').value = min;
+        document.getElementById('goalText').value = "💤 休息：喝水、廁所、看訊息、紀錄進度";
         setBodyBackground("break");
         this.start();
     }

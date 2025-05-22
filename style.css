@@ -231,11 +231,6 @@ button.delete:hover {
     }
 }
 
-
-.background-break {
-    background-color: #b0c4de;
-}
-
 /* 閃爍效果 */
 .flash {
     animation: flashAnimation 1s infinite;
