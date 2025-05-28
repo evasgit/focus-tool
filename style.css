@@ -1,71 +1,114 @@
+/* ===== Responsive Rewrite of Timer App Styles ===== */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --danger-color: #e74c3c;
+    --neutral-bg: #f0f4f8;
+    --section-bg: #ffffff;
+}
+
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 100%;
+    /* 16px default */
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f4f8;
+    background-color: var(--neutral-bg);
     color: #333;
     margin: 0;
     padding: 10px;
-    width: 240px;
-    height: 464px;
-    box-sizing: border-box;
-    overflow-y: auto;
+    min-height: 100vh;
+    /* Full‑height for sticky footer if needed */
+    display: flex;
+    flex-direction: column;
 }
 
 main {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
+    /* 8px */
+    width: 100%;
 }
 
-/* 版本號 */
+/* ===== Version Badge ===== */
 #version {
-    font-size: 10px;
+    font-size: 0.625rem;
+    /* 10px */
     color: #666;
-    position: absolute;
+    position: fixed;
+    /* Avoid scroll overlap */
     top: 5px;
     right: 10px;
     opacity: 0.6;
+    z-index: 10;
 }
 
-/* 區塊統一樣式 */
+/* ===== Shared Section Styles ===== */
 #goal-section,
 #timer-display-section,
 #todoList,
 .container {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
+    background-color: var(--section-bg);
+    padding: 0.625rem;
+    /* 10px */
+    border-radius: 0.5rem;
+    /* 8px */
     text-align: center;
     width: 100%;
-    box-sizing: border-box;
 }
 
-/* 計時顯示 */
+/* ===== Timer Display ===== */
 #timerDisplay {
-    font-size: 20px;
-    color: #e74c3c;
-    margin-bottom: 6px;
+    font-size: 1.25rem;
+    /* 20px */
+    color: var(--danger-color);
+    margin-bottom: 0.375rem;
+    /* 6px */
 }
 
 #noBreakTime {
-    font-size: 14px;
+    font-size: 0.875rem;
+    /* 14px */
     color: #555;
 }
 
-/* 目標區輸入 */
+/* ===== Goal Input ===== */
 #goalText {
     width: 70%;
-    padding: 6px;
-    font-size: 14px;
+    padding: 0.375rem;
+    /* 6px */
+    font-size: 0.875rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 5px;
+    border-radius: 0.3125rem;
+    /* 5px */
+    margin-right: 0.3125rem;
 }
 
+/* Small screens: make input full‑width to avoid overflow */
+@media (max-width: 420px) {
+    #goalText {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* ===== Delete Button ===== */
 button.delete {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.125rem;
+    /* 18px */
     color: #666;
 }
 
@@ -73,36 +116,35 @@ button.delete:hover {
     color: #333;
 }
 
-/* 按鈕群組與選單 */
+/* ===== Button Group & Select ===== */
 #button-group {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding-top: 6px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    gap: 0.375rem;
+    padding-top: 0.375rem;
+    flex-wrap: wrap;
+    /* Wrap on small, inline on large */
+    overflow-x: visible;
 }
 
-/* 執行按鈕 */
 #actionRunBtn {
-    background-color: #007bff;
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
-    font-size: 14px;
-    padding: 6px 10px;
-    border-radius: 4px;
+    font-size: 0.875rem;
+    padding: 0.375rem 0.625rem;
+    border-radius: 0.25rem;
     flex-shrink: 0;
 }
 
 #actionRunBtn:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover);
 }
 
-/* 下拉式選單 */
 #actionSelect {
-    font-size: 14px;
-    padding: 6px 8px;
-    border-radius: 4px;
+    font-size: 0.875rem;
+    padding: 0.375rem 0.5rem;
+    border-radius: 0.25rem;
     border: 1px solid #ccc;
     width: 125px;
     min-width: 100px;
@@ -110,11 +152,10 @@ button.delete:hover {
     flex-shrink: 0;
 }
 
-/* 自訂分鐘數輸入框 */
 #customTime {
-    font-size: 14px;
-    padding: 6px;
-    border-radius: 4px;
+    font-size: 0.875rem;
+    padding: 0.375rem;
+    border-radius: 0.25rem;
     border: 1px solid #ccc;
     width: 60px;
     max-width: 80px;
@@ -122,19 +163,7 @@ button.delete:hover {
     flex-shrink: 0;
 }
 
-
-/* #start20Btn {
-    background-color: #6600ff;
-    color: #fff;
-    border: none;
-}
-
-#start20Btn:hover {
-    background-color: #4b00cc;
-} */
-
-
-/* 歷史區 */
+/* ===== History Section ===== */
 #history ul {
     list-style: none;
     padding: 0;
@@ -142,15 +171,15 @@ button.delete:hover {
 }
 
 #history li {
-    padding: 6px;
-    background: #fff;
-    border-radius: 4px;
-    margin: 4px 0;
-    font-size: 14px;
+    padding: 0.375rem;
+    background: var(--section-bg);
+    border-radius: 0.25rem;
+    margin: 0.25rem 0;
+    font-size: 0.875rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* 待辦清單 */
+/* ===== Todo List ===== */
 #todoList ul {
     list-style: none;
     padding: 0;
@@ -158,16 +187,16 @@ button.delete:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 4px;
+    gap: 0.25rem;
 }
 
 #todoList li {
     flex: 1 1 48%;
-    font-size: 14px;
+    font-size: 0.875rem;
     text-align: center;
 }
 
-/* YouTube 區 */
+/* ===== YouTube Container ===== */
 .container iframe {
     width: 100%;
     height: 180px;
@@ -177,34 +206,35 @@ button.delete:hover {
 
 .container input[type="text"] {
     width: 100%;
-    padding: 6px;
-    font-size: 14px;
+    padding: 0.375rem;
+    font-size: 0.875rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
 }
 
 .container button {
-    padding: 6px 10px;
-    font-size: 14px;
-    background-color: #007bff;
-    color: white;
+    padding: 0.375rem 0.625rem;
+    font-size: 0.875rem;
+    background-color: var(--primary-color);
+    color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.25rem;
 }
 
 .container button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-hover);
 }
 
-/* TinyMCE 區 */
+/* ===== TinyMCE Note Area ===== */
 #noteArea {
     width: 100%;
     height: 100px;
-    margin-top: 10px;
+    margin-top: 0.625rem;
     display: none;
+    /* Shown dynamically */
 }
 
-/* 背景動畫類型 */
+/* ===== Background States ===== */
 .background-normal {
     background-color: #f5deb3;
 }
@@ -231,7 +261,7 @@ button.delete:hover {
     }
 }
 
-/* 閃爍效果 */
+/* ===== Flash Effect ===== */
 .flash {
     animation: flashAnimation 1s infinite;
 }
@@ -239,16 +269,60 @@ button.delete:hover {
 @keyframes flashAnimation {
     0% {
         background-color: #f5deb3;
-        color: #e74c3c;
+        color: var(--danger-color);
     }
 
     50% {
-        background-color: #e74c3c;
+        background-color: var(--danger-color);
         color: #fff;
     }
 
     100% {
         background-color: #f5deb3;
-        color: #e74c3c;
+        color: var(--danger-color);
+    }
+}
+
+/* ===== Responsive Layout Breakpoints ===== */
+@media (min-width: 480px) {
+    body {
+        padding: 1.25rem;
+    }
+
+    #timerDisplay {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 768px) {
+    main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    #goal-section,
+    #timer-display-section,
+    #todoList,
+    .container {
+        flex: 1 1 calc(50% - 1rem);
+    }
+
+    #timerDisplay {
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+
+    #goal-section,
+    #timer-display-section,
+    #todoList,
+    .container {
+        flex: 1 1 calc(33.333% - 1rem);
+    }
+
+    #timerDisplay {
+        font-size: 2.25rem;
     }
 }
