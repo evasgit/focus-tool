@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250603141520";
+const versionNumber = "v250603141825";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -218,6 +218,7 @@ const Timer = {
         countdown = setInterval(() => {
             if (state.remainingTime > 0) {
                 state.remainingTime--;
+                state.lastDurationSec--;
                 state.elapsedSinceLastBreak++;
                 updateTimerDisplay(state.remainingTime);
                 addGoalHistory(goalText);
