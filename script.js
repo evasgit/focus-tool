@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250603141125";
+const versionNumber = "v250603141520";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -210,7 +210,6 @@ const Timer = {
         state.lastDurationSec = state.remainingTime;  // ✅ 新增這行
 
         updateTimerDisplay(state.remainingTime);
-        addGoalHistory(goalText);
 
         // ✅ 播放影片 + 背景切換
         if (typeof player?.playVideo === 'function') player.playVideo();
@@ -221,6 +220,7 @@ const Timer = {
                 state.remainingTime--;
                 state.elapsedSinceLastBreak++;
                 updateTimerDisplay(state.remainingTime);
+                addGoalHistory(goalText);
             } else {
                 player.pauseVideo();
                 playNotification();  // 🔁 重複播放音效
