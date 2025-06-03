@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250603141825";
+const versionNumber = "v250603142329";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -189,6 +189,10 @@ const Timer = {
     },
     start() {
 
+        if (state.remainingTime > 0 && state.lastGoal) {
+            addGoalHistory(state.lastGoal);
+        }
+
         // 🛑 停止提示音
         stopNotification();  // ⛔ 停止任何重複播放狀態
         // ▶️ 播放一次（不重複）
@@ -211,6 +215,7 @@ const Timer = {
 
         updateTimerDisplay(state.remainingTime);
 
+
         // ✅ 播放影片 + 背景切換
         if (typeof player?.playVideo === 'function') player.playVideo();
         setBodyBackground("normal");
@@ -221,7 +226,6 @@ const Timer = {
                 state.lastDurationSec--;
                 state.elapsedSinceLastBreak++;
                 updateTimerDisplay(state.remainingTime);
-                addGoalHistory(goalText);
             } else {
                 player.pauseVideo();
                 playNotification();  // 🔁 重複播放音效
