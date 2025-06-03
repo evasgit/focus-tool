@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250603142538";
+const versionNumber = "v250603143253";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -190,7 +190,7 @@ const Timer = {
     start() {
 
         if (state.remainingTime > 0 && state.lastGoal) {
-            state.lastDurationSec = state.remainingTime;  // ✅ 紀錄上次剩餘時間
+            state.lastDurationSec = state.lastCustomTimeValue - state.remainingTime;
             addGoalHistory(state.lastGoal);
         }
 
@@ -210,8 +210,10 @@ const Timer = {
         state.hasRecordedHistory = false;
         state.startedAt = Date.now();
 
-        const totalSeconds = parseInt(document.getElementById('customTime').value) * 60;
+        const customTimeValue = document.getElementById('customTime').value;
+        const totalSeconds = parseInt(customTimeValue) * 60;
         state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
+        state.lastCustomTimeValue = customTimeValue;  // ✅ 紀錄自訂時間值
         state.lastDurationSec = state.remainingTime;  // ✅ 新增這行
 
         updateTimerDisplay(state.remainingTime);
