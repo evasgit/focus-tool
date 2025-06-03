@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250603142329";
+const versionNumber = "v250603142538";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -190,6 +190,7 @@ const Timer = {
     start() {
 
         if (state.remainingTime > 0 && state.lastGoal) {
+            state.lastDurationSec = state.remainingTime;  // ✅ 紀錄上次剩餘時間
             addGoalHistory(state.lastGoal);
         }
 
