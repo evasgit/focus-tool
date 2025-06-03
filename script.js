@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250603134553";
+const versionNumber = "v250603140247";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("pause").addEventListener("click", () => Timer.pause());
     document.getElementById("start20Btn").addEventListener("click", () => Timer.start20());
     document.getElementById("startBtn").addEventListener("click", () => Timer.start());
+    document.getElementById("meetBtn").addEventListener("click", () => Timer.startMeet());
     document.getElementById("actionSelect").addEventListener("change", function () {
         const isCustom = this.value === "custom";
         document.getElementById("customTime").style.display = isCustom ? "inline-block" : "none";
@@ -178,6 +179,13 @@ const Timer = {
         document.getElementById('customTime').value = TIMER_SETTINGS.initialTimeMin;
         state.remainingTime = TIMER_SETTINGS.initialTime;
         this.start();
+    },
+    startMeet() {
+        const meetTime = document.getElementById('meetBtn').dataset.min;
+        document.getElementById('customTime').value = meetTime;
+        document.getElementById('goalText').value = "會議/討論";
+        this.start();
+        player.pauseVideo();
     },
     start() {
 
