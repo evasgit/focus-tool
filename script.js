@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250603145201";
+const versionNumber = "v250611091149";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -71,10 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(goalInputTimer);
         goalInputTimer = setTimeout(() => {
             const goalText = this.value;
+            console.log("Input changed:", goalText);
             const options = document.getElementById('goalOptions').options;
             for (let i = 0; i < options.length; i++) {
                 if (options[i].value === goalText) {
                     const time = options[i].getAttribute('data-time');
+                    console.log("Found matching option with time:", time);
                     if (time) {
                         document.getElementById('customTime').value = time;
                         document.getElementById('actionSelect').value = 'custom';
