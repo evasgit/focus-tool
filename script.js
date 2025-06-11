@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250611091608";
+const versionNumber = "v250611091718";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -44,31 +44,31 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("start20Btn").addEventListener("click", () => Timer.start20());
     document.getElementById("startBtn").addEventListener("click", () => Timer.start());
     document.getElementById("meetBtn").addEventListener("click", () => Timer.startMeet());
-    const actionSelect = document.getElementById("actionSelect");
-    if (actionSelect) {
-        actionSelect.addEventListener("change", function () {
-            const isCustom = this.value === "custom";
-            document.getElementById("customTime").style.display = isCustom ? "inline-block" : "none";
-        });
-    }
-    document.getElementById("actionRunBtn").addEventListener("click", () => {
-        const action = document.getElementById("actionSelect").value;
-        const customMinutes = parseInt(document.getElementById("customTime").value);
-        switch (action) {
-            case "custom":
-                if (!isNaN(customMinutes) && customMinutes > 0) Timer.start();
-                else alert("請輸入有效的分鐘數");
-                break;
-            case "pause":
-                Timer.pause();
-                break;
-            case "break":
-                Timer.startBreak();
-                break;
-            default:
-                alert("請選擇一個動作");
-        }
-    });
+    // const actionSelect = document.getElementById("actionSelect");
+    // if (actionSelect) {
+    //     actionSelect.addEventListener("change", function () {
+    //         const isCustom = this.value === "custom";
+    //         document.getElementById("customTime").style.display = isCustom ? "inline-block" : "none";
+    //     });
+    // }
+    // document.getElementById("actionRunBtn").addEventListener("click", () => {
+    //     const action = document.getElementById("actionSelect").value;
+    //     const customMinutes = parseInt(document.getElementById("customTime").value);
+    //     switch (action) {
+    //         case "custom":
+    //             if (!isNaN(customMinutes) && customMinutes > 0) Timer.start();
+    //             else alert("請輸入有效的分鐘數");
+    //             break;
+    //         case "pause":
+    //             Timer.pause();
+    //             break;
+    //         case "break":
+    //             Timer.startBreak();
+    //             break;
+    //         default:
+    //             alert("請選擇一個動作");
+    //     }
+    // });
 
     document.getElementById('goalText').addEventListener('input', function () {
         clearTimeout(goalInputTimer);
