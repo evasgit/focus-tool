@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250611091718";
+const versionNumber = "v250611092154";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     console.log("Found matching option with time:", time);
                     if (time) {
                         document.getElementById('customTime').value = time;
-                        document.getElementById('actionSelect').value = 'custom';
+                        // document.getElementById('actionSelect').value = 'custom';
                         document.getElementById('customTime').style.display = 'inline-block';
                         Timer.start();
                     }
