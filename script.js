@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250611092154";
+const versionNumber = "v250612090906";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -43,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("pause").addEventListener("click", () => Timer.pause());
     document.getElementById("start20Btn").addEventListener("click", () => Timer.start20());
     document.getElementById("startBtn").addEventListener("click", () => Timer.start());
+    document.getElementById("startBtnMute").addEventListener("click", () => Timer.startAndMute());
+    document.getElementById("MuteBtn").addEventListener("click", () => player.pauseVideo());
     document.getElementById("meetBtn").addEventListener("click", () => Timer.startMeet());
     // const actionSelect = document.getElementById("actionSelect");
     // if (actionSelect) {
@@ -189,6 +191,10 @@ const Timer = {
         const meetTime = document.getElementById('meetBtn').dataset.min;
         document.getElementById('customTime').value = meetTime;
         document.getElementById('goalText').value = "會議/討論";
+        this.start();
+        player.pauseVideo();
+    },
+    startAndMute() {
         this.start();
         player.pauseVideo();
     },
