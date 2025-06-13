@@ -326,3 +326,43 @@ button.delete:hover {
         font-size: 2.25rem;
     }
 }
+
+
+.custom-group {
+    display: flex;
+    flex-wrap: wrap;
+    /* 允許換行 */
+    gap: 0.5em;
+    /* 元素間距 */
+}
+
+.custom-group>* {
+    flex: 1 1 auto;
+    /* 元素寬度可撐滿並換行 */
+    min-width: 4.5em;
+    /* 最小寬度 */
+}
+
+#timer-display-section {
+    position: fixed;
+    /* 固定定位 */
+    top: 0;
+    /* 距離視窗頂部 0 */
+    left: 0;
+    /* 距離視窗左側 0 */
+    width: 100%;
+    /* 撐滿寬度 */
+    background: white;
+    /* 可加背景色，避免重疊內容透出 */
+    z-index: 9999;
+    /* 確保在最上層 */
+    padding: 0.5em;
+    /* 視覺間距，可依需求調整 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* 可選：加陰影區隔內容 */
+}
+
+body {
+    padding-top: calc(2em + 1rem);
+    /* 預留空間，避免被遮擋（高度依實際元素高度調整） */
+}
