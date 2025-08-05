@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805110951";
+const versionNumber = "v250805111430";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -69,12 +69,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // 初始化預設項目到 #goalHistory（以歷史格式顯示）
     const historyUl = document.getElementById('goalHistory');
     const presets = [
-        { value: "💤 休息：喝水、廁所、看訊息、紀錄進度", time: 10, finishCurrent: true, start: true, pauseMedia: true },
-        { value: "🍚 午餐吃完要清潔丟廚餘", time: 30, finishCurrent: true, start: true, pauseMedia: true },
+        { value: "💤 休息：喝水、廁所、看訊息、紀錄進度", time: 10, finishCurrent: true, start: true, pauseMedia: false },
+        { value: "🍚 午餐吃完要清潔丟廚餘", time: 30, finishCurrent: true, start: true, pauseMedia: false },
         { value: "☕ 咖啡+早餐+吃藥", time: 20, finishCurrent: true, start: true, pauseMedia: false },
         { value: "🫡 早會", time: 30, finishCurrent: true, start: true, pauseMedia: true },
-        { value: "🌞 CP+F5: 開今天(mention)、查看通知、查看例行、整理項目", time: 20, finishCurrent: false, start: false, pauseMedia: false },
-        { value: "週報", time: 20, finishCurrent: true, start: false, pauseMedia: false }
+        { value: "🌞 CP+F5: 開今天(mention)、查看通知、查看例行、整理項目", time: 20, finishCurrent: true, start: true, pauseMedia: false },
+        { value: "週報", time: 30, finishCurrent: true, start: true, pauseMedia: false }
     ];
 
     presets.forEach(p => {
