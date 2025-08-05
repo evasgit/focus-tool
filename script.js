@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805112439";
+const versionNumber = "v250805112803";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -79,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     presets.forEach(p => {
         const li = document.createElement('li');
+        li.style.backgroundColor = '#f0f0f0'; // 淺灰
         li.textContent = `🎯 ${p.value} ⌛️ 0 小時 0 分【更新 n/a】`;
         li.dataset.value = p.value;
         li.dataset.time = p.time;
