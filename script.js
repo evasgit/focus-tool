@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805112803";
+const versionNumber = "v250805113336";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("startBtn").addEventListener("click", () => Timer.start());
     document.getElementById("startBtnMute").addEventListener("click", () => Timer.startAndMute());
     document.getElementById("MuteBtn").addEventListener("click", () => player.pauseVideo());
+    document.getElementById("UMuteBtn").addEventListener("click", () => player.playVideo());
     document.getElementById("meetBtn").addEventListener("click", () => Timer.startMeet());
 
     // 輸入框監聽
