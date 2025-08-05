@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805101058";
+const versionNumber = "v250805104353";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -311,3 +311,34 @@ function setBodyBackground(mode) {
             break;
     }
 }
+
+document.getElementById('goalHistoryList').addEventListener('click', function (e) {
+    const item = e.target.closest('li');
+    if (!item) return;
+
+    const value = item.dataset.value;
+    const time = parseInt(item.dataset.time, 10);
+    const finishCurrent = item.dataset.finishCurrent === 'true';
+    const start = item.dataset.start === 'true';
+    const pauseMedia = item.dataset.pauseMedia === 'true';
+
+    // 設定目標文字
+    document.getElementById('goalText').value = value;
+    document.getElementById('customTime').value = time;
+
+    // 如果要結算當前倒數
+    if (finishCurrent && state.remainingTime > 0 && state.lastGoal) {
+        state.lastDurationSec = state.lastDurationSec - state.remainingTime;
+        addGoalHistory(state.lastGoal);
+    }
+
+    // 如果要暫停影片
+    if (pauseMedia && typeof player?.pauseVideo === 'function') {
+        player.pauseVideo();
+    }
+
+    // 如果要直接開始倒數
+    if (start) {
+        Timer.start();
+    }
+});

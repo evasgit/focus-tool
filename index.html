@@ -35,14 +35,20 @@
                 <input type="text" id="goalText" list="goalOptions" placeholder="輸入您的目標或選擇">
                 <button onclick="clearCustomTime()" class="delete" title="清空">✖️</button>
             </div>
-            <datalist id="goalOptions">
-                <option id="break" value="💤 休息：喝水、廁所、看訊息、紀錄進度" data-time="10"></option>
-                <option value="🍚 午餐吃完要清潔丟廚餘" data-time="30"></option>
-                <option value="☕ 咖啡+早餐+吃藥" data-time="20"></option>
-                <option value="🫡 早會" data-time="30"></option>
-                <option value="🌞 CP+F5: 開今天(mention)、查看通知、查看例行、整理項目" data-time="20"></option>
-                <option value="週報" data-time="20"></option>
-            </datalist>
+            <ul id="goalHistoryList">
+                <li data-value="💤 休息：喝水、廁所、看訊息、紀錄進度" data-time="10" data-finish-current="true" data-start="true"
+                    data-pause-media="true">💤 休息：喝水、廁所、看訊息、紀錄進度</li>
+                <li data-value="🍚 午餐吃完要清潔丟廚餘" data-time="30" data-finish-current="true" data-start="true"
+                    data-pause-media="true">🍚 午餐吃完要清潔丟廚餘</li>
+                <li data-value="☕ 咖啡+早餐+吃藥" data-time="20" data-finish-current="true" data-start="true"
+                    data-pause-media="false">☕ 咖啡+早餐+吃藥</li>
+                <li data-value="🫡 早會" data-time="30" data-finish-current="true" data-start="true"
+                    data-pause-media="true">🫡 早會</li>
+                <li data-value="🌞 CP+F5: 開今天(mention)、查看通知、查看例行、整理項目" data-time="20" data-finish-current="false"
+                    data-start="false" data-pause-media="false">🌞 CP+F5: 開今天(mention)、查看通知、查看例行、整理項目</li>
+                <li data-value="週報" data-time="20" data-finish-current="true" data-start="false"
+                    data-pause-media="false">週報</li>
+            </ul>
             <div id="button-group">
                 <!-- 既定 20 分鐘 ▶️ -->
                 <button id="start20Btn" data-min="20">▶️ 20</button>
