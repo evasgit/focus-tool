@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805111504";
+const versionNumber = "v250805111743";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     presets.forEach(p => {
         const li = document.createElement('li');
-        li.textContent = `🎯 ${p.value} 累計 0 小時 0 分【更新 n/a】`;
+        li.textContent = `🎯 ${p.value} ⌛️ 0 小時 0 分【更新 n/a】`;
         li.dataset.value = p.value;
         li.dataset.time = p.time;
         li.dataset.finishCurrent = p.finishCurrent;
@@ -147,7 +147,7 @@ function addGoalHistory(goalText, addClick = true) {
     const minutes = Math.floor((total % 3600) / 60);
     const hhmm = now ? now.toTimeString().slice(0, 5) : "n/a";
 
-    const displayText = `🎯 ${key} 累計 ${hours} 小時 ${minutes} 分【更新 ${hhmm || "n/a"}】`;
+    const displayText = `🎯 ${key} ⌛️ ${hours} 小時 ${minutes} 分【更新 ${hhmm || "n/a"}】`;
 
     const ul = document.getElementById('goalHistory');
     const existingItems = ul.querySelectorAll('li');
