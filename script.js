@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805104353";
+const versionNumber = "v250805104704";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -134,7 +134,7 @@ function showTodoList() {
     document.getElementById('todoList').style.display = 'block';
 }
 
-function addGoalHistory(goalText) {
+function addGoalHistory(goalText, addClick = true) {
     const durationSec = state.lastDurationSec || 0;
     const key = goalText.trim();
     const now = new Date();
@@ -156,35 +156,32 @@ function addGoalHistory(goalText) {
 
     const displayText = `🎯 ${key} 累計 ${hours} 小時 ${minutes} 分（上次更新 ${hhmm}）`;
 
-    const ul = document.getElementById('goalHistory');
-    const existingItems = ul.getElementsByTagName('li');
+    const ul = document.getElementById('goalList');
+    const existingItems = ul.querySelectorAll('li[data-goal]');
     let updated = false;
 
-    for (let li of existingItems) {
+    existingItems.forEach(li => {
         if (li.dataset.goal === key) {
             li.textContent = displayText;
             updated = true;
-            break;
         }
-    }
+    });
 
     if (!updated) {
         const li = document.createElement('li');
         li.textContent = displayText;
         li.dataset.goal = key;
-
-        // 讓歷史項目可點選
-        li.style.cursor = 'pointer';
-        li.title = '點選以設為當前目標';
-        li.addEventListener('click', () => {
-            document.getElementById('goalText').value = key;
-        });
-
+        li.dataset.value = key;
+        li.dataset.time = "20"; // 可依需求自動設定
+        li.dataset.finishCurrent = "true";
+        li.dataset.start = "true";
+        li.dataset.pauseMedia = "false";
         ul.insertBefore(li, ul.firstChild);
     }
 
     state.hasRecordedHistory = true;
 }
+
 
 
 // ✅ Timer 物件整合
@@ -312,33 +309,36 @@ function setBodyBackground(mode) {
     }
 }
 
-document.getElementById('goalHistoryList').addEventListener('click', function (e) {
-    const item = e.target.closest('li');
-    if (!item) return;
-
-    const value = item.dataset.value;
-    const time = parseInt(item.dataset.time, 10);
+function handleGoalClick(item) {
+    const value = item.dataset.value || item.dataset.goal;
+    const time = parseInt(item.dataset.time || '20', 10);
     const finishCurrent = item.dataset.finishCurrent === 'true';
     const start = item.dataset.start === 'true';
     const pauseMedia = item.dataset.pauseMedia === 'true';
 
-    // 設定目標文字
+    // 設定目標文字與時間
     document.getElementById('goalText').value = value;
     document.getElementById('customTime').value = time;
 
-    // 如果要結算當前倒數
+    // 是否結算當前倒數
     if (finishCurrent && state.remainingTime > 0 && state.lastGoal) {
         state.lastDurationSec = state.lastDurationSec - state.remainingTime;
-        addGoalHistory(state.lastGoal);
+        addGoalHistory(state.lastGoal, false); // false 代表不要重複生成點擊事件
     }
 
-    // 如果要暫停影片
+    // 是否暫停影片
     if (pauseMedia && typeof player?.pauseVideo === 'function') {
         player.pauseVideo();
     }
 
-    // 如果要直接開始倒數
+    // 是否直接開始倒數
     if (start) {
         Timer.start();
     }
+}
+
+document.getElementById('goalList').addEventListener('click', function (e) {
+    const li = e.target.closest('li');
+    if (!li) return;
+    handleGoalClick(li);
 });
