@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805105921";
+const versionNumber = "v250805110511";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -331,11 +331,4 @@ function handleGoalClick(li) {
 document.getElementById('goalHistory').addEventListener('click', e => {
     const li = e.target.closest('li');
     if (li) handleGoalClick(li);
-});
-
-
-document.getElementById('goalList').addEventListener('click', function (e) {
-    const li = e.target.closest('li');
-    if (!li) return;
-    handleGoalClick(li);
 });
