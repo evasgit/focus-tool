@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250731135527";
+const versionNumber = "v250805100214";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -172,6 +172,14 @@ function addGoalHistory(goalText) {
         const li = document.createElement('li');
         li.textContent = displayText;
         li.dataset.goal = key;
+
+        // 讓歷史項目可點選
+        li.style.cursor = 'pointer';
+        li.title = '點選以設為當前目標';
+        li.addEventListener('click', () => {
+            document.getElementById('goalText').value = key;
+        });
+
         ul.insertBefore(li, ul.firstChild);
     }
 
