@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805110511";
+const versionNumber = "v250805110821";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -315,7 +315,8 @@ function handleGoalClick(li) {
     document.getElementById('customTime').value = time;
 
     if (finishCurrent && state.remainingTime > 0 && state.lastGoal) {
-        state.lastDurationSec = state.lastDurationSec - state.remainingTime;
+        const elapsedSec = (state.lastCustomTimeValue * 60) - state.remainingTime;
+        state.lastDurationSec = elapsedSec;
         addGoalHistory(state.lastGoal, false);
     }
 
