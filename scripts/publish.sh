@@ -17,7 +17,7 @@ echo "📂 當前 git 狀態："
 git status
 
 # 自動 add / commit / push
-read -e -p "📝 請輸入 commit 訊息（預設為 \"$VERSION\"）: " feature
+read -r -e -p "📝 請輸入 commit 訊息（預設為 \"$VERSION\"）: " feature
 if [ -z "$feature" ]; then
     feature="update"
 fi
