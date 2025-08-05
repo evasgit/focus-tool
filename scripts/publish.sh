@@ -25,4 +25,4 @@ git add .
 git commit -m "$VERSION: ${feature}"
 git push
 
-echo "✅ 推送完成，版本為 $VERSION"
+echo "✅ 推送完成，版本為 $VERSION: ${feature}"
