@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805111743";
+const versionNumber = "v250805112439";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -90,6 +90,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+function recordElapsedTime(goal, skipHistory = false) {
+    if (state.remainingTime > 0 && goal) {
+        const elapsedSec = (parseInt(state.lastCustomTimeValue, 10) * 60) - state.remainingTime;
+        state.lastDurationSec = Math.max(elapsedSec, 0); // 避免負數
+        if (!skipHistory) {
+            addGoalHistory(goal);
+        } else {
+            addGoalHistory(goal, false);
+        }
+    }
+}
 
 let goalInputTimer;
 
@@ -199,16 +210,11 @@ const Timer = {
         player.pauseVideo();
     },
     start() {
-
-        if (state.remainingTime > 0 && state.lastGoal) {
-            console.info(state.lastCustomTimeValue, state.remainingTime, state.lastDurationSec);
-            state.lastDurationSec = state.lastDurationSec - state.remainingTime;
-            addGoalHistory(state.lastGoal);
+        if (state.lastGoal) {
+            recordElapsedTime(state.lastGoal);
         }
 
-        // 🛑 停止提示音
-        stopNotification();  // ⛔ 停止任何重複播放狀態
-        // ▶️ 播放一次（不重複）
+        stopNotification();
         try {
             notificationSound.loop = false;
             notificationSound.currentTime = 0;
@@ -216,6 +222,7 @@ const Timer = {
         } catch (e) {
             if (DEBUG_MODE) console.error("🔇 無法播放啟動提示音", e);
         }
+
         clearInterval(countdown);
         const goalText = document.getElementById('goalText').value || '未命名目標';
         state.lastGoal = goalText;
@@ -225,13 +232,11 @@ const Timer = {
         const customTimeValue = document.getElementById('customTime').value;
         const totalSeconds = parseInt(customTimeValue) * 60;
         state.remainingTime = isNaN(totalSeconds) ? TIMER_SETTINGS.initialTime : totalSeconds;
-        state.lastCustomTimeValue = customTimeValue;  // ✅ 紀錄自訂時間值
-        state.lastDurationSec = state.remainingTime;  // ✅ 新增這行
+        state.lastCustomTimeValue = customTimeValue;
+        state.lastDurationSec = state.remainingTime;
 
         updateTimerDisplay(state.remainingTime);
 
-
-        // ✅ 播放影片 + 背景切換
         if (typeof player?.playVideo === 'function') player.playVideo();
         setBodyBackground("normal");
 
@@ -242,15 +247,14 @@ const Timer = {
                 updateTimerDisplay(state.remainingTime);
             } else {
                 player.pauseVideo();
-                playNotification();  // 🔁 重複播放音效
+                playNotification();
                 if (!state.hasRecordedHistory) {
                     addGoalHistory(goalText);
                     state.hasRecordedHistory = true;
                 }
-                setBodyBackground("alert");  // ⏰ 計時結束後閃爍
+                setBodyBackground("alert");
             }
         }, 1000);
-
     },
     pause() {
         clearInterval(countdown);
@@ -314,10 +318,8 @@ function handleGoalClick(li) {
     document.getElementById('goalText').value = value;
     document.getElementById('customTime').value = time;
 
-    if (finishCurrent && state.remainingTime > 0 && state.lastGoal) {
-        const elapsedSec = (state.lastCustomTimeValue * 60) - state.remainingTime;
-        state.lastDurationSec = elapsedSec;
-        addGoalHistory(state.lastGoal, false);
+    if (finishCurrent && state.lastGoal) {
+        recordElapsedTime(state.lastGoal, true);
     }
 
     if (pauseMedia && typeof player?.pauseVideo === 'function') {
@@ -328,6 +330,7 @@ function handleGoalClick(li) {
         Timer.start();
     }
 }
+
 
 document.getElementById('goalHistory').addEventListener('click', e => {
     const li = e.target.closest('li');
