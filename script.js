@@ -12,7 +12,7 @@ let currentPlaylist = "";
 let notificationSound = new Audio("data/notification.mp3");
 let isRinging = false;
 
-const versionNumber = "v250805113336";
+const versionNumber = "v250902085459";
 const DEBUG_MODE = false;
 
 const TIMER_SETTINGS = {
@@ -239,7 +239,13 @@ const Timer = {
 
         updateTimerDisplay(state.remainingTime);
 
-        if (typeof player?.playVideo === 'function') player.playVideo();
+        const goalElement = document.querySelector(`#goalHistory li[data-value="${goalText}"]`);
+        const pauseMedia = goalElement ? (goalElement.dataset.pauseMedia === 'true') : false;
+        if (pauseMedia) {
+            if (typeof player?.pauseVideo === 'function') player.pauseVideo();
+        } else {
+            if (typeof player?.playVideo === 'function') player.playVideo();
+        }
         setBodyBackground("normal");
 
         countdown = setInterval(() => {
